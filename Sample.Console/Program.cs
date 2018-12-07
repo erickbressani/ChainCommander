@@ -19,8 +19,6 @@ namespace Sample.ConsoleApp
             var human4 = new Human() { Name = "Mario" };
             var human5 = new Human() { Name = "Luigi" };
 
-            var a = new List<Human>();
-
             commandChain.CreateBasedOn<HumanCommand>()
                         .Using(human1, human2, human3)
                         .Do(HumanCommand.Eat)
