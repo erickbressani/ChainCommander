@@ -1,6 +1,9 @@
 # Commander
 Generic Chain of Command Structure
 
+## Nuget
+> Install-Package ChainCommander -Version 1.0.0
+
 ## Usage 
 
 First you have to create an enum that represents all the Command Types:
