@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Sample.Implementation;
 using System;
+using System.Collections.Generic;
 
 namespace Sample.ConsoleApp
 {
@@ -13,14 +14,19 @@ namespace Sample.ConsoleApp
             var commandChain = serviceProvider.GetService<ICommandChain>();
 
             var human1 = new Human() { Name = "John" };
-            var human2 = new Human() { Name = "Erick" };
+            var human2 = new Human() { Name = "Logan" };
+            var human3 = new Human() { Name = "Roger" };
+            var human4 = new Human() { Name = "Mario" };
+            var human5 = new Human() { Name = "Luigi" };
+
+            var a = new List<Human>();
 
             commandChain.CreateBasedOn<HumanCommand>()
-                        .Using(human1)
+                        .Using(human1, human2, human3)
                         .Do(HumanCommand.Eat)
                         .ThenDo(HumanCommand.Run)
                         .ThenDo(HumanCommand.Sleep)
-                        .ThenUsing(human2)
+                        .ThenUsing(human4, human5)
                         .Do(HumanCommand.Work)
                         .ThenDo(HumanCommand.Walk)
                         .ThenDo(HumanCommand.Eat);

@@ -20,7 +20,13 @@ namespace Commander.Extensions
             }
         }
 
-        internal static void ExecuteAll<TCommandType, TContract>(this IEnumerable<ICommandHandler<TCommandType, TContract>> handlers, TContract contract) where TCommandType : Enum
+        internal static void Execute<TCommandType, TContract>(this IEnumerable<ICommandHandler<TCommandType, TContract>> handlers, IEnumerable<TContract> contracts) where TCommandType : Enum
+        {
+            foreach (TContract contract in contracts)
+                handlers.Execute(contract);
+        }
+
+        internal static void Execute<TCommandType, TContract>(this IEnumerable<ICommandHandler<TCommandType, TContract>> handlers, TContract contract) where TCommandType : Enum
         {
             foreach (ICommandHandler<TCommandType, TContract> handler in handlers)
                 handler.Handle(contract);
