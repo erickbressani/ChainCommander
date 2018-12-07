@@ -15,29 +15,16 @@ namespace Sample.ConsoleApp
             var human1 = new Human() { Name = "John" };
             var human2 = new Human() { Name = "Logan" };
             var human3 = new Human() { Name = "Roger" };
-            var human4 = new Human() { Name = "Mario" };
-            var human5 = new Human() { Name = "Luigi" };
 
             commandChain.CreateBasedOn<HumanCommand>()
-                        .Using(human1, human2, human3)
+                        .Using(human1, human2)
                         .Do(HumanCommand.Eat)
                         .ThenDo(HumanCommand.Run)
                         .ThenDo(HumanCommand.Sleep)
-                        .ThenUsing(human4, human5)
+                        .ThenUsing(human3)
                         .Do(HumanCommand.Work)
                         .ThenDo(HumanCommand.Walk)
                         .ThenDo(HumanCommand.Eat);
-
-            Console.WriteLine();
-            Console.WriteLine("------------------");
-            Console.WriteLine();
-
-            commandChain.CreateBasedOn<HumanCommand>()
-                        .Using(human1)
-                        .Do(HumanCommand.Walk)
-                        .ThenDo(HumanCommand.Run)
-                        .ThenDo(HumanCommand.Work)
-                        .ThenDo(HumanCommand.Sleep);
 
             Console.ReadLine();
         }

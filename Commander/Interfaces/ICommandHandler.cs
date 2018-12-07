@@ -2,7 +2,7 @@
 
 namespace Commander
 {
-    public interface ICommandHandler<TChain, TContract> where TChain : Enum
+    public interface ICommandHandler<TCommandType, TContract> where TCommandType : Enum
     {
         void Handle(TContract contract);
     }
