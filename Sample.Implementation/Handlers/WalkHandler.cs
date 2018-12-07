@@ -3,7 +3,7 @@ using System;
 
 namespace Sample.Implementation
 {
-    [Executes(HumanCommand.Walk)]
+    [Handles(HumanCommand.Walk)]
     public class WalkHandler : ICommandHandler<HumanCommand, Human>
     {
         public void Handle(Human contract)

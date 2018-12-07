@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Sample.Implementation;
 using System;
-using System.Collections.Generic;
 
 namespace Sample.ConsoleApp
 {

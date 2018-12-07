@@ -10,7 +10,7 @@ namespace Commander.Extensions
         {
             foreach (ICommandHandler<TCommandType, TContract> handler in handlers)
             {
-                string handlerChainType = handler.GeTCommandType();
+                string handlerChainType = handler.GetCommandName();
 
                 if (!string.IsNullOrEmpty(handlerChainType) &&
                     handlerChainType.Equals(type.ToString(), StringComparison.InvariantCultureIgnoreCase))
@@ -32,13 +32,13 @@ namespace Commander.Extensions
                 handler.Handle(contract);
         }
 
-        private static string GeTCommandType<TCommandType, TContract>(this ICommandHandler<TCommandType, TContract> handler) where TCommandType : Enum
+        private static string GetCommandName<TCommandType, TContract>(this ICommandHandler<TCommandType, TContract> handler) where TCommandType : Enum
         {
             var fromChain = handler.GetType()
-                                   .GetCustomAttributes(typeof(Executes), true)
-                                   .FirstOrDefault() as Executes;
+                                   .GetCustomAttributes(typeof(Handles), true)
+                                   .FirstOrDefault() as Handles;
 
-            return fromChain?.CommandType;
+            return fromChain?.CommandName;
         }
     }
 }

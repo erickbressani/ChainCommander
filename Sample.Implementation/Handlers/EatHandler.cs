@@ -3,7 +3,7 @@ using System;
 
 namespace Sample.Implementation
 {
-    [Executes(HumanCommand.Eat)]
+    [Handles(HumanCommand.Eat)]
     public class EatHandler : ICommandHandler<HumanCommand, Human>
     {
         public void Handle(Human contract)

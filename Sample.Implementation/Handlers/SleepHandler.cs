@@ -3,7 +3,7 @@ using System;
 
 namespace Sample.Implementation
 {
-    [Executes(HumanCommand.Sleep)]
+    [Handles(HumanCommand.Sleep)]
     public class SleepHandler : ICommandHandler<HumanCommand, Human>
     {
         public void Handle(Human contract)
