@@ -1,0 +1,16 @@
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\bin\Debug\netcoreapp2.1\Sample.Console.deps.json
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\bin\Debug\netcoreapp2.1\Sample.Console.runtimeconfig.json
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\bin\Debug\netcoreapp2.1\Sample.Console.runtimeconfig.dev.json
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\bin\Debug\netcoreapp2.1\Sample.Console.dll
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\obj\Debug\netcoreapp2.1\Sample.Console.csproj.CoreCompileInputs.cache
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\obj\Debug\netcoreapp2.1\Sample.Console.AssemblyInfoInputs.cache
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\obj\Debug\netcoreapp2.1\Sample.Console.AssemblyInfo.cs
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\obj\Debug\netcoreapp2.1\Sample.Console.csprojAssemblyReference.cache
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\bin\Debug\netcoreapp2.1\Sample.Console.pdb
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\bin\Debug\netcoreapp2.1\ChainOfResponsabilityTest.dll
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\bin\Debug\netcoreapp2.1\Sample.Implementation.dll
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\bin\Debug\netcoreapp2.1\Sample.Implementation.pdb
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\bin\Debug\netcoreapp2.1\ChainOfResponsabilityTest.pdb
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\obj\Debug\netcoreapp2.1\Sample.Console.csproj.CopyComplete
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\obj\Debug\netcoreapp2.1\Sample.Console.dll
+C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Sample.Console\obj\Debug\netcoreapp2.1\Sample.Console.pdb

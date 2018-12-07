@@ -1,0 +1,9 @@
+c:\users\erick.bressani\source\repos\ChainOfResponsabilityTest\ChainOfResponsabilityTest\bin\Debug\netcoreapp2.1\ChainOfResponsabilityTest.deps.json
+c:\users\erick.bressani\source\repos\ChainOfResponsabilityTest\ChainOfResponsabilityTest\bin\Debug\netcoreapp2.1\ChainOfResponsabilityTest.dll
+c:\users\erick.bressani\source\repos\ChainOfResponsabilityTest\ChainOfResponsabilityTest\bin\Debug\netcoreapp2.1\ChainOfResponsabilityTest.pdb
+c:\users\erick.bressani\source\repos\ChainOfResponsabilityTest\ChainOfResponsabilityTest\obj\Debug\netcoreapp2.1\ChainOfResponsabilityTest.csproj.CoreCompileInputs.cache
+c:\users\erick.bressani\source\repos\ChainOfResponsabilityTest\ChainOfResponsabilityTest\obj\Debug\netcoreapp2.1\ChainOfResponsabilityTest.AssemblyInfoInputs.cache
+c:\users\erick.bressani\source\repos\ChainOfResponsabilityTest\ChainOfResponsabilityTest\obj\Debug\netcoreapp2.1\ChainOfResponsabilityTest.AssemblyInfo.cs
+c:\users\erick.bressani\source\repos\ChainOfResponsabilityTest\ChainOfResponsabilityTest\obj\Debug\netcoreapp2.1\ChainOfResponsabilityTest.dll
+c:\users\erick.bressani\source\repos\ChainOfResponsabilityTest\ChainOfResponsabilityTest\obj\Debug\netcoreapp2.1\ChainOfResponsabilityTest.pdb
+c:\users\erick.bressani\source\repos\ChainOfResponsabilityTest\ChainOfResponsabilityTest\obj\Debug\netcoreapp2.1\ChainOfResponsabilityTest.csprojAssemblyReference.cache
