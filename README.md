@@ -79,6 +79,7 @@ public class WorkHandler : ICommandHandler<HumanCommand, Human>
 ### Building the Command Chain:
 ```
 var commandChain = serviceProvider.GetService<ICommandChain>();
+
 var human = new Human() { Name = "John" };
 
 commandChain.CreateBasedOn<HumanCommand>()
