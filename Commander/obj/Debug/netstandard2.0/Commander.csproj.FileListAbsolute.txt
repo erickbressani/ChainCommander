@@ -19,7 +19,6 @@ C:\Users\erick.bressani\source\repos\ChainOfResponsabilityTest\Commander\obj\Deb
 C:\Users\erick.bressani\source\repos\Commander\Commander\bin\Debug\netstandard2.0\Commander.deps.json
 C:\Users\erick.bressani\source\repos\Commander\Commander\bin\Debug\netstandard2.0\Commander.dll
 C:\Users\erick.bressani\source\repos\Commander\Commander\bin\Debug\netstandard2.0\Commander.pdb
-C:\Users\erick.bressani\source\repos\Commander\Commander\obj\Debug\netstandard2.0\Commander.csprojAssemblyReference.cache
 C:\Users\erick.bressani\source\repos\Commander\Commander\obj\Debug\netstandard2.0\Commander.csproj.CoreCompileInputs.cache
 C:\Users\erick.bressani\source\repos\Commander\Commander\obj\Debug\netstandard2.0\Commander.AssemblyInfoInputs.cache
 C:\Users\erick.bressani\source\repos\Commander\Commander\obj\Debug\netstandard2.0\Commander.AssemblyInfo.cs
