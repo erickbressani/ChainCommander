@@ -114,11 +114,19 @@ commandChain.CreateBasedOn<HumanCommand>()
 ```
 #### Console:
 > John is Eating
+
 > Logan is Eating
+
 > John is Running
+
 > Logan is Running
+
 > John is Sleeping
+
 > Logan is Sleeping
+
 > Roger is Working
+
 > Roger is Walking
+
 > Roger is Eating
