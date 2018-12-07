@@ -91,8 +91,11 @@ commandChain.CreateBasedOn<HumanCommand>()
 
 #### Console:
 > John is Eating
+
 > John is Running
+
 > John is Sleeping
+
 
 You can also create your chain using more than one contract and command queue:
 
