@@ -69,7 +69,7 @@ namespace Commander
                 _handlers.GetBy(step)
                          .Execute(_contracts);
 
-                return new NextCommandBuilder<TCommandType, TContract>(_contracts, _handlers);
+                return this;
             }
 
             public ICommandBuilder<TCommandType, TContract> ThenUsing(IEnumerable<TContract> newContracts)
