@@ -2,7 +2,7 @@
 Generic Chain of Command Structure
 
 ## Nuget
-> Install-Package ChainCommander -Version 1.0.0
+> Install-Package ChainCommander -Version 1.1.0
 
 ## Usage 
 
