@@ -12,11 +12,8 @@ namespace Commander.Extensions
             {
                 string handlerChainType = handler.GetCommandName();
 
-                if (!string.IsNullOrEmpty(handlerChainType) &&
-                    handlerChainType.Equals(type.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
+                if (handlerChainType.Equals(type.ToString(), StringComparison.InvariantCultureIgnoreCase))
                     yield return handler;
-                }
             }
         }
 
@@ -34,11 +31,14 @@ namespace Commander.Extensions
 
         private static string GetCommandName<TCommandType, TContract>(this ICommandHandler<TCommandType, TContract> handler) where TCommandType : Enum
         {
-            var fromChain = handler.GetType()
-                                   .GetCustomAttributes(typeof(Handles), true)
-                                   .FirstOrDefault() as Handles;
+            var handles = handler.GetType()
+                                 .GetCustomAttributes(typeof(Handles), true)
+                                 .FirstOrDefault() as Handles;
 
-            return fromChain?.CommandName;
+            if (handles == null)
+                return string.Empty;
+
+            return handles.CommandName;
         }
     }
 }
