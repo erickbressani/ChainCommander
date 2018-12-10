@@ -18,13 +18,13 @@ namespace Sample.ConsoleApp
 
             commandChain.CreateBasedOn<HumanCommand>()
                         .Using(human1, human2)
-                        .Do(HumanCommand.Eat)
-                        .ThenDo(HumanCommand.Run)
-                        .ThenDo(HumanCommand.Sleep)
+                            .Do(HumanCommand.Eat)
+                            .ThenDo(HumanCommand.Run)
+                            .ThenDo(HumanCommand.Sleep)
                         .ThenUsing(human3)
-                        .Do(HumanCommand.Work)
-                        .ThenDo(HumanCommand.Walk)
-                        .ThenDo(HumanCommand.Eat);
+                            .Do(HumanCommand.Work)
+                            .ThenDo(HumanCommand.Walk)
+                            .ThenDo(HumanCommand.Eat);
 
             Console.ReadLine();
         }

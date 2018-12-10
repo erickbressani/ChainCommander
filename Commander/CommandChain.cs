@@ -21,9 +21,7 @@ namespace Commander
             private IServiceProvider _serviceProvider;
 
             internal ContractBuilder(IServiceProvider serviceProvider)
-            {
-                _serviceProvider = serviceProvider;
-            }
+                => _serviceProvider = serviceProvider;
 
             public ICommandBuilder<TCommandType, TContract> Using<TContract>(IEnumerable<TContract> contracts)
                 => Using(contracts.ToArray());
