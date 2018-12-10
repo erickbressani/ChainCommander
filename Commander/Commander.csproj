@@ -6,6 +6,8 @@
     <Company />
     <PackageTags>Command Chain;Command;Chain;Fluent</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>ChainCommander</PackageId>
+    <Product>ChainCommander</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

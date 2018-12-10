@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v2.1": {
       "Sample.Implementation/1.0.0": {
         "dependencies": {
-          "Commander": "1.0.0"
+          "ChainCommander": "1.0.0"
         },
         "runtime": {
           "Sample.Implementation.dll": {}
@@ -33,7 +33,7 @@
           }
         }
       },
-      "Commander/1.0.0": {
+      "ChainCommander/1.0.0": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "2.1.1"
         },
@@ -63,7 +63,7 @@
       "path": "microsoft.extensions.dependencyinjection.abstractions/2.1.1",
       "hashPath": "microsoft.extensions.dependencyinjection.abstractions.2.1.1.nupkg.sha512"
     },
-    "Commander/1.0.0": {
+    "ChainCommander/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -15,7 +15,7 @@ namespace Commander
         public IContractBuilder<TCommandType> CreateBasedOn<TCommandType>() where TCommandType : Enum
             => new ContractBuilder<TCommandType>(_serviceProvider);
 
-        public class ContractBuilder<TCommandType> : IContractBuilder<TCommandType> where TCommandType : Enum
+        internal class ContractBuilder<TCommandType> : IContractBuilder<TCommandType> where TCommandType : Enum
         {
             private IServiceProvider _serviceProvider;
 
@@ -31,7 +31,7 @@ namespace Commander
             }
         }
 
-        public class CommandBuilder<TCommandType, TContract> : ICommandBuilder<TCommandType, TContract> where TCommandType : Enum
+        internal class CommandBuilder<TCommandType, TContract> : ICommandBuilder<TCommandType, TContract> where TCommandType : Enum
         {
             private IEnumerable<TContract> _contracts;
             private IEnumerable<ICommandHandler<TCommandType, TContract>> _handlers;
@@ -51,7 +51,7 @@ namespace Commander
             }
         }
 
-        public class NextCommandBuilder<TCommandType, TContract> : INextCommandBuilder<TCommandType, TContract> where TCommandType : Enum
+        internal class NextCommandBuilder<TCommandType, TContract> : INextCommandBuilder<TCommandType, TContract> where TCommandType : Enum
         {
             private IEnumerable<TContract> _contracts;
             private IEnumerable<ICommandHandler<TCommandType, TContract>> _handlers;

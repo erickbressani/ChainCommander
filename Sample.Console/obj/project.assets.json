@@ -229,24 +229,24 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "Commander/1.0.0": {
+      "ChainCommander/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "2.1.1"
         },
         "compile": {
-          "bin/placeholder/Commander.dll": {}
+          "bin/placeholder/ChainCommander.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Commander.dll": {}
+          "bin/placeholder/ChainCommander.dll": {}
         }
       },
       "Sample.Implementation/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.1",
         "dependencies": {
-          "Commander": "1.0.0"
+          "ChainCommander": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Sample.Implementation.dll": {}
@@ -749,7 +749,7 @@
         "netstandard.library.nuspec"
       ]
     },
-    "Commander/1.0.0": {
+    "ChainCommander/1.0.0": {
       "type": "project",
       "path": "../Commander/Commander.csproj",
       "msbuildProject": "../Commander/Commander.csproj"
@@ -792,6 +792,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Users\\erick.bressani\\source\\repos\\Commander\\Commander\\bin\\Debug": {},
         "C:\\Users\\erick.bressani\\source\\repos\\Rabbitier\\Rabbitier.Subscriber\\bin\\Debug": {},
         "https://api.nuget.org/v3/index.json": {}
       },

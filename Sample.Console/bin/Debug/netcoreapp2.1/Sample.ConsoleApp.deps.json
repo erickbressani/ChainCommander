@@ -34,7 +34,7 @@
           }
         }
       },
-      "Commander/1.0.0": {
+      "ChainCommander/1.0.0": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "2.2.0"
         },
@@ -44,7 +44,7 @@
       },
       "Sample.Implementation/1.0.0": {
         "dependencies": {
-          "Commander": "1.0.0"
+          "ChainCommander": "1.0.0"
         },
         "runtime": {
           "Sample.Implementation.dll": {}
@@ -72,7 +72,7 @@
       "path": "microsoft.extensions.dependencyinjection.abstractions/2.2.0",
       "hashPath": "microsoft.extensions.dependencyinjection.abstractions.2.2.0.nupkg.sha512"
     },
-    "Commander/1.0.0": {
+    "ChainCommander/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

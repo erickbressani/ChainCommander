@@ -233,7 +233,7 @@
     "version": "1.0.0",
     "restore": {
       "projectUniqueName": "C:\\Users\\erick.bressani\\source\\repos\\Commander\\Commander\\Commander.csproj",
-      "projectName": "Commander",
+      "projectName": "ChainCommander",
       "projectPath": "C:\\Users\\erick.bressani\\source\\repos\\Commander\\Commander\\Commander.csproj",
       "packagesPath": "C:\\Users\\erick.bressani\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\erick.bressani\\source\\repos\\Commander\\Commander\\obj\\",
@@ -250,6 +250,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Users\\erick.bressani\\source\\repos\\Commander\\Commander\\bin\\Debug": {},
         "C:\\Users\\erick.bressani\\source\\repos\\Rabbitier\\Rabbitier.Subscriber\\bin\\Debug": {},
         "https://api.nuget.org/v3/index.json": {}
       },
