@@ -2,6 +2,7 @@
 using Commander.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Commander
 {
@@ -23,6 +24,9 @@ namespace Commander
             {
                 _serviceProvider = serviceProvider;
             }
+
+            public ICommandBuilder<TCommandType, TContract> Using<TContract>(IEnumerable<TContract> contracts)
+                => Using(contracts.ToArray());
 
             public ICommandBuilder<TCommandType, TContract> Using<TContract>(params TContract[] contracts)
             {
@@ -69,6 +73,9 @@ namespace Commander
 
                 return new NextCommandBuilder<TCommandType, TContract>(_contracts, _handlers);
             }
+
+            public ICommandBuilder<TCommandType, TContract> ThenUsing(IEnumerable<TContract> newContracts)
+                => ThenUsing(newContracts.ToArray());
 
             public ICommandBuilder<TCommandType, TContract> ThenUsing(params TContract[] newContracts)
                 => new CommandBuilder<TCommandType, TContract>(newContracts, _handlers);
