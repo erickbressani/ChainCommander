@@ -1,4 +1,4 @@
-# Commander
+# ChainCommander
 Generic Chain of Command Structure
 
 ## Nuget
