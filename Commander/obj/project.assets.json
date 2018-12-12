@@ -230,7 +230,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "1.1.1",
     "restore": {
       "projectUniqueName": "C:\\Users\\erick.bressani\\source\\repos\\Commander\\Commander\\Commander.csproj",
       "projectName": "ChainCommander",

@@ -8,6 +8,10 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>ChainCommander</PackageId>
     <Product>ChainCommander</Product>
+    <Description>.Net Standard Generic Chain of Command Structure</Description>
+    <Version>1.1.1</Version>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <FileVersion>1.1.1.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

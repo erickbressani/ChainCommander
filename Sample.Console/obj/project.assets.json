@@ -229,7 +229,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "ChainCommander/1.0.0": {
+      "ChainCommander/1.1.1": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
@@ -246,7 +246,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.1",
         "dependencies": {
-          "ChainCommander": "1.0.0"
+          "ChainCommander": "1.1.1"
         },
         "compile": {
           "bin/placeholder/Sample.Implementation.dll": {}
@@ -749,7 +749,7 @@
         "netstandard.library.nuspec"
       ]
     },
-    "ChainCommander/1.0.0": {
+    "ChainCommander/1.1.1": {
       "type": "project",
       "path": "../Commander/Commander.csproj",
       "msbuildProject": "../Commander/Commander.csproj"
