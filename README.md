@@ -111,12 +111,12 @@ var human3 = new Human() { Name = "Roger" };
 
 commandChain.CreateBasedOn<HumanCommand>()
             .Using(human1, human2)
-            .Do(HumanCommand.Eat)
-            .ThenDo(HumanCommand.Run)
-            .ThenDo(HumanCommand.Sleep)
+                .Do(HumanCommand.Eat)
+                .ThenDo(HumanCommand.Run)
+                .ThenDo(HumanCommand.Sleep)
             .ThenUsing(human3)
-            .Do(HumanCommand.Work)
-            .ThenDo(HumanCommand.Eat);
+                .Do(HumanCommand.Work)
+                .ThenDo(HumanCommand.Eat);
 ```
 #### Console:
 > John is Eating
