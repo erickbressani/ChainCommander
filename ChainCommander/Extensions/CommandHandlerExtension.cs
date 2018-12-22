@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Commander.Extensions
+namespace ChainCommander.Extensions
 {
     internal static class CommandHandlerExtension
     {

@@ -1,4 +1,4 @@
-﻿using Commander;
+﻿using ChainCommander;
 using Microsoft.Extensions.DependencyInjection;
 using Sample.Implementation;
 using System;

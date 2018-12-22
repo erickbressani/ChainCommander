@@ -1,10 +1,10 @@
-﻿using Commander.Structure;
-using Commander.Extensions;
+﻿using ChainCommander.Structure;
+using ChainCommander.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Commander
+namespace ChainCommander
 {
     public class CommandChain : ICommandChain
     {

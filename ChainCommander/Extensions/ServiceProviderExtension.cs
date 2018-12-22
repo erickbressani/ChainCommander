@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Commander.Extensions
+namespace ChainCommander.Extensions
 {
     internal static class ServiceProviderExtension
     {

@@ -1,7 +1,7 @@
-﻿using Commander.Structure;
+﻿using ChainCommander.Structure;
 using System;
 
-namespace Commander
+namespace ChainCommander
 {
     public interface ICommandChain
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Commander
+namespace ChainCommander
 {
     public class Handles : Attribute
     {

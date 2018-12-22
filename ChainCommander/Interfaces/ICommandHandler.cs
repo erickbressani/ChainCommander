@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Commander
+namespace ChainCommander
 {
     public interface ICommandHandler<TCommandType, TContract> where TCommandType : Enum
     {

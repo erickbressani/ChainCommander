@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Commander.Structure
+namespace ChainCommander.Structure
 {
     public interface ICommandBuilder<TCommandType, TContract> where TCommandType : Enum
     {

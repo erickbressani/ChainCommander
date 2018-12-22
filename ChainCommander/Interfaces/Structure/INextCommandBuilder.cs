@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Commander.Structure
+namespace ChainCommander.Structure
 {
     public interface INextCommandBuilder<TCommandType, TContract> where TCommandType : Enum
     {
