@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ChainCommander\ChainCommander.csproj" />
     <ProjectReference Include="..\Sample.Implementation\Sample.Implementation.csproj" />
   </ItemGroup>
 
