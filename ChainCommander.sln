@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.ConsoleApp", "Sample
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChainCommander", "ChainCommander\ChainCommander.csproj", "{9CBDAC32-79DC-40A6-AF94-D67CC1AE4847}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Tests", "Sample.Tests\Sample.Tests.csproj", "{7C12B202-33E4-463C-A8AA-D21A488E6EA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Tests", "Sample.Tests\Sample.Tests.csproj", "{7C12B202-33E4-463C-A8AA-D21A488E6EA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +29,10 @@ Global
 		{9CBDAC32-79DC-40A6-AF94-D67CC1AE4847}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CBDAC32-79DC-40A6-AF94-D67CC1AE4847}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CBDAC32-79DC-40A6-AF94-D67CC1AE4847}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C12B202-33E4-463C-A8AA-D21A488E6EA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C12B202-33E4-463C-A8AA-D21A488E6EA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C12B202-33E4-463C-A8AA-D21A488E6EA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C12B202-33E4-463C-A8AA-D21A488E6EA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
