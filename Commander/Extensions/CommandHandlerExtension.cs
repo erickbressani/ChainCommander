@@ -35,10 +35,7 @@ namespace Commander.Extensions
                                  .GetCustomAttributes(typeof(Handles), true)
                                  .FirstOrDefault() as Handles;
 
-            if (handles == null)
-                return string.Empty;
-
-            return handles.CommandName;
+            return handles?.CommandName ?? string.Empty;
         }
     }
 }
