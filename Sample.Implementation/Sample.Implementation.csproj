@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Commander\Commander.csproj" />
+    <ProjectReference Include="..\ChainCommander\ChainCommander.csproj" />
   </ItemGroup>
 
 </Project>
