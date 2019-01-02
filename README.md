@@ -19,9 +19,9 @@ public enum HumanCommand
 }
 ```
 
-Then the concrete Command Handler classes need to implement this interface: ICommandHandler<TCommandType, TContract>
+Then the concrete Command Handler classes need to implement this interface: ICommandHandler<TCommandType, TSubject>
  - TCommandType: The Enum that represents the command types;
- - TContract: The type of the class that will be manipulated by the handlers.
+ - TSubject: The type of the class that will be manipulated by the handlers.
 
 Add the Custom Attribute *Handles* above the Command Handler class, passing the Enum Value as a parameter.
 
@@ -29,7 +29,7 @@ Add the Custom Attribute *Handles* above the Command Handler class, passing the 
 [Handles(HumanCommand.Work)]
 public class WorkHandler : ICommandHandler<HumanCommand, Human>
 {
-    public void Handle(Human contract)
+    public void Handle(Human subject)
     {
         ...
     }
@@ -56,26 +56,26 @@ Don't forget to inject the Handlers and the CommandChain class:
 [Handles(HumanCommand.Eat)]
 public class EatHandler : ICommandHandler<HumanCommand, Human>
 {
-    public void Handle(Human contract)
-        => Console.WriteLine($"{contract.Name} is Eating");
+    public void Handle(Human subject)
+        => Console.WriteLine($"{subject.Name} is Eating");
 }
 [Handles(HumanCommand.Run)]
 public class RunHandler : ICommandHandler<HumanCommand, Human>
 {
-    public void Handle(Human contract)
-        => Console.WriteLine($"{contract.Name} is Running");
+    public void Handle(Human subject)
+        => Console.WriteLine($"{subject.Name} is Running");
 }
 [Handles(HumanCommand.Sleep)]
 public class SleepHandler : ICommandHandler<HumanCommand, Human>
 {
-    public void Handle(Human contract)
-        => Console.WriteLine($"{contract.Name} is Sleeping");
+    public void Handle(Human subject)
+        => Console.WriteLine($"{subject.Name} is Sleeping");
 }
 [Handles(HumanCommand.Work)]
 public class WorkHandler : ICommandHandler<HumanCommand, Human>
 {
-    public void Handle(Human contract)
-        => Console.WriteLine($"{contract.Name} is Working");
+    public void Handle(Human subject)
+        => Console.WriteLine($"{subject.Name} is Working");
 }
 ```
 
@@ -100,7 +100,7 @@ commandChain.CreateBasedOn<HumanCommand>()
 > John is Sleeping
 
 
-You can also create your chain using more than one contract and command queue:
+You can also create your chain using more than one subject and command queue:
 
 ```
 var commandChain = serviceProvider.GetService<ICommandChain>();
