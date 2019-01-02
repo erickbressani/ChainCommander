@@ -2,8 +2,8 @@
 
 namespace ChainCommander
 {
-    public interface ICommandHandler<TCommandType, TContract> where TCommandType : Enum
+    public interface ICommandHandler<TCommandType, TSubject> where TCommandType : Enum
     {
-        void Handle(TContract contract);
+        void Handle(TSubject subject);
     }
 }

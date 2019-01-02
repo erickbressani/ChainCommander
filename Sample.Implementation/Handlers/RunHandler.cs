@@ -6,10 +6,10 @@ namespace Sample.Implementation
     [Handles(HumanCommand.Run)]
     public class RunHandler : ICommandHandler<HumanCommand, Human>
     {
-        public void Handle(Human contract)
+        public void Handle(Human subject)
         {
-            contract.IsRunning = true;
-            Console.WriteLine($"{contract.Name} is Running");
+            subject.IsRunning = true;
+            Console.WriteLine($"{subject.Name} is Running");
         }
     }
 }

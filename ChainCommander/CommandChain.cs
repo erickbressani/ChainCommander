@@ -13,70 +13,70 @@ namespace ChainCommander
         public CommandChain(IServiceProvider serviceProvider)
             => _serviceProvider = serviceProvider;
 
-        public IContractBuilder<TCommandType> CreateBasedOn<TCommandType>() where TCommandType : Enum
-            => new ContractBuilder<TCommandType>(_serviceProvider);
+        public ISubjectBuilder<TCommandType> CreateBasedOn<TCommandType>() where TCommandType : Enum
+            => new SubjectBuilder<TCommandType>(_serviceProvider);
 
-        internal class ContractBuilder<TCommandType> : IContractBuilder<TCommandType> where TCommandType : Enum
+        internal class SubjectBuilder<TCommandType> : ISubjectBuilder<TCommandType> where TCommandType : Enum
         {
             private IServiceProvider _serviceProvider;
 
-            internal ContractBuilder(IServiceProvider serviceProvider)
+            internal SubjectBuilder(IServiceProvider serviceProvider)
                 => _serviceProvider = serviceProvider;
 
-            public ICommandBuilder<TCommandType, TContract> Using<TContract>(IEnumerable<TContract> contracts)
-                => Using(contracts.ToArray());
+            public ICommandBuilder<TCommandType, TSubject> Using<TSubject>(IEnumerable<TSubject> subjects)
+                => Using(subjects.ToArray());
 
-            public ICommandBuilder<TCommandType, TContract> Using<TContract>(params TContract[] contracts)
+            public ICommandBuilder<TCommandType, TSubject> Using<TSubject>(params TSubject[] subjects)
             {
-                var handlers = _serviceProvider.GetAllHandlers<TCommandType, TContract>();
-                return new CommandBuilder<TCommandType, TContract>(contracts, handlers);
+                var handlers = _serviceProvider.GetAllHandlers<TCommandType, TSubject>();
+                return new CommandBuilder<TCommandType, TSubject>(subjects, handlers);
             }
         }
 
-        internal class CommandBuilder<TCommandType, TContract> : ICommandBuilder<TCommandType, TContract> where TCommandType : Enum
+        internal class CommandBuilder<TCommandType, TSubject> : ICommandBuilder<TCommandType, TSubject> where TCommandType : Enum
         {
-            private IEnumerable<TContract> _contracts;
-            private IEnumerable<ICommandHandler<TCommandType, TContract>> _handlers;
+            private IEnumerable<TSubject> _subjects;
+            private IEnumerable<ICommandHandler<TCommandType, TSubject>> _handlers;
 
-            internal CommandBuilder(IEnumerable<TContract> contracts, IEnumerable<ICommandHandler<TCommandType, TContract>> handlers)
+            internal CommandBuilder(IEnumerable<TSubject> subjects, IEnumerable<ICommandHandler<TCommandType, TSubject>> handlers)
             {
-                _contracts = contracts;
+                _subjects = subjects;
                 _handlers = handlers;
             }
 
-            public INextCommandBuilder<TCommandType, TContract> Do(TCommandType step)
+            public INextCommandBuilder<TCommandType, TSubject> Do(TCommandType step)
             {
                 _handlers.GetBy(step)
-                         .Execute(_contracts);
+                         .Execute(_subjects);
 
-                return new NextCommandBuilder<TCommandType, TContract>(_contracts, _handlers);
+                return new NextCommandBuilder<TCommandType, TSubject>(_subjects, _handlers);
             }
         }
 
-        internal class NextCommandBuilder<TCommandType, TContract> : INextCommandBuilder<TCommandType, TContract> where TCommandType : Enum
+        internal class NextCommandBuilder<TCommandType, TSubjects> : INextCommandBuilder<TCommandType, TSubjects> where TCommandType : Enum
         {
-            private IEnumerable<TContract> _contracts;
-            private IEnumerable<ICommandHandler<TCommandType, TContract>> _handlers;
+            private IEnumerable<TSubjects> _subjects;
+            private IEnumerable<ICommandHandler<TCommandType, TSubjects>> _handlers;
 
-            internal NextCommandBuilder(IEnumerable<TContract> contracts, IEnumerable<ICommandHandler<TCommandType, TContract>> handlers)
+            internal NextCommandBuilder(IEnumerable<TSubjects> subjects, IEnumerable<ICommandHandler<TCommandType, TSubjects>> handlers)
             {
-                _contracts = contracts;
+                _subjects = subjects;
                 _handlers = handlers;
             }
 
-            public INextCommandBuilder<TCommandType, TContract> ThenDo(TCommandType step)
+            public INextCommandBuilder<TCommandType, TSubjects> ThenDo(TCommandType step)
             {
                 _handlers.GetBy(step)
-                         .Execute(_contracts);
+                         .Execute(_subjects);
 
                 return this;
             }
 
-            public ICommandBuilder<TCommandType, TContract> ThenUsing(IEnumerable<TContract> newContracts)
-                => ThenUsing(newContracts.ToArray());
+            public ICommandBuilder<TCommandType, TSubjects> ThenUsing(IEnumerable<TSubjects> newSubjects)
+                => ThenUsing(newSubjects.ToArray());
 
-            public ICommandBuilder<TCommandType, TContract> ThenUsing(params TContract[] newContracts)
-                => new CommandBuilder<TCommandType, TContract>(newContracts, _handlers);
+            public ICommandBuilder<TCommandType, TSubjects> ThenUsing(params TSubjects[] newSubjects)
+                => new CommandBuilder<TCommandType, TSubjects>(newSubjects, _handlers);
         }
     }
 }

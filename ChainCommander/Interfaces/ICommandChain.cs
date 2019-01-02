@@ -5,6 +5,6 @@ namespace ChainCommander
 {
     public interface ICommandChain
     {
-        IContractBuilder<TCommandType> CreateBasedOn<TCommandType>() where TCommandType : Enum;
+        ISubjectBuilder<TCommandType> CreateBasedOn<TCommandType>() where TCommandType : Enum;
     }
 }

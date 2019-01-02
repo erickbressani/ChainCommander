@@ -1,4 +1,5 @@
 ﻿using ChainCommander;
+using System;
 
 namespace Sample.Implementation
 {
@@ -9,9 +10,7 @@ namespace Sample.Implementation
     /// </summary>
     public class InvalidHandler : ICommandHandler<HumanCommand, Human>
     {
-        public void Handle(Human contract)
-        {
-
-        }
+        public void Handle(Human subject)
+            => throw new NotImplementedException();
     }
 }

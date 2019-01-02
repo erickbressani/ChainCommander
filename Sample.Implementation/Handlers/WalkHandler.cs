@@ -6,10 +6,10 @@ namespace Sample.Implementation
     [Handles(HumanCommand.Walk)]
     public class WalkHandler : ICommandHandler<HumanCommand, Human>
     {
-        public void Handle(Human contract)
+        public void Handle(Human subject)
         {
-            contract.IsWalking = true;
-            Console.WriteLine($"{contract.Name} is Walking");
+            subject.IsWalking = true;
+            Console.WriteLine($"{subject.Name} is Walking");
         }
     }
 }

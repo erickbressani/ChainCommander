@@ -6,9 +6,9 @@ namespace ChainCommander.Extensions
 {
     internal static class CommandHandlerExtension
     {
-        internal static IEnumerable<ICommandHandler<TCommandType, TContract>> GetBy<TCommandType, TContract>(this IEnumerable<ICommandHandler<TCommandType, TContract>> handlers, TCommandType type) where TCommandType : Enum
+        internal static IEnumerable<ICommandHandler<TCommandType, TSubject>> GetBy<TCommandType, TSubject>(this IEnumerable<ICommandHandler<TCommandType, TSubject>> handlers, TCommandType type) where TCommandType : Enum
         {
-            foreach (ICommandHandler<TCommandType, TContract> handler in handlers)
+            foreach (ICommandHandler<TCommandType, TSubject> handler in handlers)
             {
                 string handlerChainType = handler.GetCommandName();
 
@@ -17,19 +17,19 @@ namespace ChainCommander.Extensions
             }
         }
 
-        internal static void Execute<TCommandType, TContract>(this IEnumerable<ICommandHandler<TCommandType, TContract>> handlers, IEnumerable<TContract> contracts) where TCommandType : Enum
+        internal static void Execute<TCommandType, TSubject>(this IEnumerable<ICommandHandler<TCommandType, TSubject>> handlers, IEnumerable<TSubject> subjects) where TCommandType : Enum
         {
-            foreach (TContract contract in contracts)
-                handlers.Execute(contract);
+            foreach (TSubject subject in subjects)
+                handlers.Execute(subject);
         }
 
-        internal static void Execute<TCommandType, TContract>(this IEnumerable<ICommandHandler<TCommandType, TContract>> handlers, TContract contract) where TCommandType : Enum
+        internal static void Execute<TCommandType, TSubject>(this IEnumerable<ICommandHandler<TCommandType, TSubject>> handlers, TSubject subject) where TCommandType : Enum
         {
-            foreach (ICommandHandler<TCommandType, TContract> handler in handlers)
-                handler.Handle(contract);
+            foreach (ICommandHandler<TCommandType, TSubject> handler in handlers)
+                handler.Handle(subject);
         }
 
-        private static string GetCommandName<TCommandType, TContract>(this ICommandHandler<TCommandType, TContract> handler) where TCommandType : Enum
+        private static string GetCommandName<TCommandType, TSubject>(this ICommandHandler<TCommandType, TSubject> handler) where TCommandType : Enum
         {
             var handles = handler.GetType()
                                  .GetCustomAttributes(typeof(Handles), true)

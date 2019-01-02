@@ -6,10 +6,10 @@ namespace Sample.Implementation
     [Handles(HumanCommand.Eat)]
     public class EatHandler : ICommandHandler<HumanCommand, Human>
     {
-        public void Handle(Human contract)
+        public void Handle(Human subject)
         {
-            contract.IsEating = true;
-            Console.WriteLine($"{contract.Name} is Eating");
+            subject.IsEating = true;
+            Console.WriteLine($"{subject.Name} is Eating");
         }
     }
 }

@@ -2,8 +2,8 @@
 
 namespace ChainCommander.Structure
 {
-    public interface ICommandBuilder<TCommandType, TContract> where TCommandType : Enum
+    public interface ICommandBuilder<TCommandType, TSubject> where TCommandType : Enum
     {
-        INextCommandBuilder<TCommandType, TContract> Do(TCommandType step);
+        INextCommandBuilder<TCommandType, TSubject> Do(TCommandType step);
     }
 }

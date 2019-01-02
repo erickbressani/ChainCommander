@@ -6,10 +6,10 @@ namespace Sample.Implementation
     [Handles(HumanCommand.Work)]
     public class WorkHandler : ICommandHandler<HumanCommand, Human>
     {
-        public void Handle(Human contract)
+        public void Handle(Human subject)
         {
-            contract.IsWorking = true;
-            Console.WriteLine($"{contract.Name} is Working");
+            subject.IsWorking = true;
+            Console.WriteLine($"{subject.Name} is Working");
         }
     }
 }

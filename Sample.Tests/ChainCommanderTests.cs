@@ -28,7 +28,7 @@ namespace Sample.Tests
         }
 
         [Fact]
-        public void OneContract()
+        public void OneSubject()
         {
             var commandChain = _serviceProvider.GetService<ICommandChain>();
 
@@ -45,7 +45,7 @@ namespace Sample.Tests
         }
 
         [Fact]
-        public void ThreeContracts()
+        public void ThreeSubjects()
         {
             var commandChain = _serviceProvider.GetService<ICommandChain>();
 
@@ -72,7 +72,7 @@ namespace Sample.Tests
         }
 
         [Fact]
-        public void ListContract()
+        public void ListSubject()
         {
             var commandChain = _serviceProvider.GetService<ICommandChain>();
 
