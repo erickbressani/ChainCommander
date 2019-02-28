@@ -2,11 +2,11 @@
 
 namespace ChainCommander
 {
-    public class Handles : Attribute
+    public class HandlesAttribute : Attribute
     {
         public string CommandName { get; }
 
-        public Handles(object commandName)
+        public HandlesAttribute(object commandName)
             => CommandName = commandName.ToString();
     }
 }

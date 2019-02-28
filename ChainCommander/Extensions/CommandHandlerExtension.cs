@@ -32,8 +32,8 @@ namespace ChainCommander.Extensions
         private static string GetCommandName<TCommandType, TSubject>(this ICommandHandler<TCommandType, TSubject> handler) where TCommandType : Enum
         {
             var handles = handler.GetType()
-                                 .GetCustomAttributes(typeof(Handles), true)
-                                 .FirstOrDefault() as Handles;
+                                 .GetCustomAttributes(typeof(HandlesAttribute), true)
+                                 .FirstOrDefault() as HandlesAttribute;
 
             return handles?.CommandName ?? string.Empty;
         }
