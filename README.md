@@ -59,18 +59,21 @@ public class EatHandler : ICommandHandler<HumanCommand, Human>
     public void Handle(Human subject)
         => Console.WriteLine($"{subject.Name} is Eating");
 }
+
 [Handles(HumanCommand.Run)]
 public class RunHandler : ICommandHandler<HumanCommand, Human>
 {
     public void Handle(Human subject)
         => Console.WriteLine($"{subject.Name} is Running");
 }
+
 [Handles(HumanCommand.Sleep)]
 public class SleepHandler : ICommandHandler<HumanCommand, Human>
 {
     public void Handle(Human subject)
         => Console.WriteLine($"{subject.Name} is Sleeping");
 }
+
 [Handles(HumanCommand.Work)]
 public class WorkHandler : ICommandHandler<HumanCommand, Human>
 {
