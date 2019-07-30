@@ -85,11 +85,12 @@ var commandChain = serviceProvider.GetService<ICommandChain>();
 
 var human = new Human() { Name = "John" };
 
-commandChain.CreateBasedOn<HumanCommand>()
-            .Using(human)
-            .Do(HumanCommand.Eat)
-            .ThenDo(HumanCommand.Run)
-            .ThenDo(HumanCommand.Sleep);
+commandChain
+    .CreateBasedOn<HumanCommand>()
+    .Using(human)
+    .Do(HumanCommand.Eat)
+    .ThenDo(HumanCommand.Run)
+    .ThenDo(HumanCommand.Sleep);
 ```
 
 #### Console:
@@ -109,14 +110,15 @@ var human1 = new Human() { Name = "John" };
 var human2 = new Human() { Name = "Logan" };
 var human3 = new Human() { Name = "Roger" };
 
-commandChain.CreateBasedOn<HumanCommand>()
-            .Using(human1, human2)
-                .Do(HumanCommand.Eat)
-                .ThenDo(HumanCommand.Run)
-                .ThenDo(HumanCommand.Sleep)
-            .ThenUsing(human3)
-                .Do(HumanCommand.Work)
-                .ThenDo(HumanCommand.Eat);
+commandChain
+    .CreateBasedOn<HumanCommand>()
+    .Using(human1, human2)
+        .Do(HumanCommand.Eat)
+        .ThenDo(HumanCommand.Run)
+        .ThenDo(HumanCommand.Sleep)
+    .ThenUsing(human3)
+        .Do(HumanCommand.Work)
+        .ThenDo(HumanCommand.Eat);
 ```
 #### Console:
 > John is Eating
