@@ -8,7 +8,7 @@ Generic Chain of Command Structure
 
 First you have to create an enum that represents all the Command Types:
 
-```
+```csharp
 public enum HumanCommand
 {
     Eat,
@@ -25,7 +25,7 @@ Then the concrete Command Handler classes need to implement this interface: ICom
 
 Add the Custom Attribute *Handles* above the Command Handler class, passing the Enum Value as a parameter.
 
-```
+```csharp
 [Handles(HumanCommand.Work)]
 public class WorkHandler : ICommandHandler<HumanCommand, Human>
 {
@@ -38,7 +38,7 @@ public class WorkHandler : ICommandHandler<HumanCommand, Human>
 
 Don't forget to inject the Handlers and the CommandChain class:
 
-```
+```csharp
 ...
 .AddTransient<ICommandHandler<HumanCommand, Human>, EatHandler>()
 .AddTransient<ICommandHandler<HumanCommand, Human>, SleepHandler>()
@@ -52,25 +52,28 @@ Don't forget to inject the Handlers and the CommandChain class:
 ## Sample
 
 ### Concrete Handlers:
-```
+```csharp
 [Handles(HumanCommand.Eat)]
 public class EatHandler : ICommandHandler<HumanCommand, Human>
 {
     public void Handle(Human subject)
         => Console.WriteLine($"{subject.Name} is Eating");
 }
+
 [Handles(HumanCommand.Run)]
 public class RunHandler : ICommandHandler<HumanCommand, Human>
 {
     public void Handle(Human subject)
         => Console.WriteLine($"{subject.Name} is Running");
 }
+
 [Handles(HumanCommand.Sleep)]
 public class SleepHandler : ICommandHandler<HumanCommand, Human>
 {
     public void Handle(Human subject)
         => Console.WriteLine($"{subject.Name} is Sleeping");
 }
+
 [Handles(HumanCommand.Work)]
 public class WorkHandler : ICommandHandler<HumanCommand, Human>
 {
@@ -80,16 +83,17 @@ public class WorkHandler : ICommandHandler<HumanCommand, Human>
 ```
 
 ### Building the Command Chain:
-```
+```csharp
 var commandChain = serviceProvider.GetService<ICommandChain>();
 
 var human = new Human() { Name = "John" };
 
-commandChain.CreateBasedOn<HumanCommand>()
-            .Using(human)
-            .Do(HumanCommand.Eat)
-            .ThenDo(HumanCommand.Run)
-            .ThenDo(HumanCommand.Sleep);
+commandChain
+    .CreateBasedOn<HumanCommand>()
+    .Using(human)
+    .Do(HumanCommand.Eat)
+    .ThenDo(HumanCommand.Run)
+    .ThenDo(HumanCommand.Sleep);
 ```
 
 #### Console:
@@ -102,21 +106,22 @@ commandChain.CreateBasedOn<HumanCommand>()
 
 You can also create your chain using more than one subject and command queue:
 
-```
+```csharp
 var commandChain = serviceProvider.GetService<ICommandChain>();
 
 var human1 = new Human() { Name = "John" };
 var human2 = new Human() { Name = "Logan" };
 var human3 = new Human() { Name = "Roger" };
 
-commandChain.CreateBasedOn<HumanCommand>()
-            .Using(human1, human2)
-                .Do(HumanCommand.Eat)
-                .ThenDo(HumanCommand.Run)
-                .ThenDo(HumanCommand.Sleep)
-            .ThenUsing(human3)
-                .Do(HumanCommand.Work)
-                .ThenDo(HumanCommand.Eat);
+commandChain
+    .CreateBasedOn<HumanCommand>()
+    .Using(human1, human2)
+        .Do(HumanCommand.Eat)
+        .ThenDo(HumanCommand.Run)
+        .ThenDo(HumanCommand.Sleep)
+    .ThenUsing(human3)
+        .Do(HumanCommand.Work)
+        .ThenDo(HumanCommand.Eat);
 ```
 #### Console:
 > John is Eating
