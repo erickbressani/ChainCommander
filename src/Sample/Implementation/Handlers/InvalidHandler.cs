@@ -1,7 +1,6 @@
-﻿using ChainCommander;
-using System;
+﻿using System;
 
-namespace Sample.Implementation
+namespace ChainCommander.Sample.Implementation
 {
     /// <summary>
     /// This is a example of an invalid handler, without the "Handles" attribute.

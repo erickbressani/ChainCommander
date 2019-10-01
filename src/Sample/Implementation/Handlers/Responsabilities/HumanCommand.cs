@@ -1,4 +1,4 @@
-﻿namespace Sample.Implementation
+﻿namespace ChainCommander.Sample.Implementation
 {
     public enum HumanCommand
     {

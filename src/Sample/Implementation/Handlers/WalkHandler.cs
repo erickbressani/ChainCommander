@@ -1,7 +1,6 @@
-﻿using ChainCommander;
-using System;
+﻿using System;
 
-namespace Sample.Implementation
+namespace ChainCommander.Sample.Implementation
 {
     [Handles(HumanCommand.Walk)]
     public class WalkHandler : ICommandHandler<HumanCommand, Human>

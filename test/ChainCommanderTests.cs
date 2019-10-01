@@ -1,6 +1,6 @@
 using ChainCommander;
+using ChainCommander.Sample.Implementation;
 using Microsoft.Extensions.DependencyInjection;
-using Sample.Implementation;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -9,7 +9,7 @@ namespace Sample.Tests
 {
     public class ChainCommanderTests
     {
-        private ServiceProvider _serviceProvider;
+        private readonly ServiceProvider _serviceProvider;
 
         public ChainCommanderTests()
             => _serviceProvider = BuildServiceProvider();
@@ -17,14 +17,14 @@ namespace Sample.Tests
         private static ServiceProvider BuildServiceProvider()
         {
             return new ServiceCollection()
-                        .AddTransient<ICommandHandler<HumanCommand, Human>, EatHandler>()
-                        .AddTransient<ICommandHandler<HumanCommand, Human>, SleepHandler>()
-                        .AddTransient<ICommandHandler<HumanCommand, Human>, WalkHandler>()
-                        .AddTransient<ICommandHandler<HumanCommand, Human>, RunHandler>()
-                        .AddTransient<ICommandHandler<HumanCommand, Human>, WorkHandler>()
-                        .AddTransient<ICommandHandler<HumanCommand, Human>, InvalidHandler>()
-                        .AddTransient<ICommandChain, CommandChain>()
-                        .BuildServiceProvider();
+                .AddTransient<ICommandHandler<HumanCommand, Human>, EatHandler>()
+                .AddTransient<ICommandHandler<HumanCommand, Human>, SleepHandler>()
+                .AddTransient<ICommandHandler<HumanCommand, Human>, WalkHandler>()
+                .AddTransient<ICommandHandler<HumanCommand, Human>, RunHandler>()
+                .AddTransient<ICommandHandler<HumanCommand, Human>, WorkHandler>()
+                .AddTransient<ICommandHandler<HumanCommand, Human>, InvalidHandler>()
+                .AddTransient<ICommandChain, CommandChain>()
+                .BuildServiceProvider();
         }
 
         [Fact]
@@ -34,11 +34,12 @@ namespace Sample.Tests
 
             var human = new Human();
 
-            commandChain.CreateBasedOn<HumanCommand>()
-                        .Using(human)
-                            .Do(HumanCommand.Eat)
-                            .ThenDo(HumanCommand.Run)
-                            .ThenDo(HumanCommand.Sleep);
+            commandChain
+                .CreateBasedOn<HumanCommand>()
+                .Using(human)
+                    .Do(HumanCommand.Eat)
+                    .ThenDo(HumanCommand.Run)
+                    .ThenDo(HumanCommand.Sleep);
 
             Assert.True(human.IsEating && human.IsRunning && human.IsRunning);
             Assert.False(human.IsWalking || human.IsWorking);
@@ -55,11 +56,12 @@ namespace Sample.Tests
 
             var humans = new List<Human>() { human1, human2, human3 };
 
-            commandChain.CreateBasedOn<HumanCommand>()
-                        .Using(human1, human2, human3)
-                            .Do(HumanCommand.Eat)
-                            .ThenDo(HumanCommand.Run)
-                            .ThenDo(HumanCommand.Sleep);
+            commandChain
+                .CreateBasedOn<HumanCommand>()
+                .Using(human1, human2, human3)
+                    .Do(HumanCommand.Eat)
+                    .ThenDo(HumanCommand.Run)
+                    .ThenDo(HumanCommand.Sleep);
 
 
             Action<Human> assert = delegate (Human human)
@@ -82,10 +84,11 @@ namespace Sample.Tests
 
             var humans = new List<Human>() { human1, human2, human3 };
 
-            commandChain.CreateBasedOn<HumanCommand>()
-                        .Using<Human>(humans)
-                            .Do(HumanCommand.Work)
-                            .ThenDo(HumanCommand.Walk);
+            commandChain
+                .CreateBasedOn<HumanCommand>()
+                .Using<Human>(humans)
+                    .Do(HumanCommand.Work)
+                    .ThenDo(HumanCommand.Walk);
 
             Action<Human> assert = delegate (Human human)
             {
@@ -106,13 +109,14 @@ namespace Sample.Tests
 
             var humans = new List<Human>() { human1, human2};
 
-            commandChain.CreateBasedOn<HumanCommand>()
-                        .Using<Human>(humans)
-                            .Do(HumanCommand.Work)
-                            .ThenDo(HumanCommand.Walk)
-                        .ThenUsing(human2)
-                            .Do(HumanCommand.Run)
-                            .ThenDo(HumanCommand.Sleep);
+            commandChain
+                .CreateBasedOn<HumanCommand>()
+                .Using<Human>(humans)
+                    .Do(HumanCommand.Work)
+                    .ThenDo(HumanCommand.Walk)
+                .ThenUsing(human2)
+                    .Do(HumanCommand.Run)
+                    .ThenDo(HumanCommand.Sleep);
 
             Action<Human> commonAssert = delegate (Human human)
             {

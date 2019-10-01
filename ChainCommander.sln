@@ -1,15 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Implementation", "Sample.Implementation\Sample.Implementation.csproj", "{FE6CCDB9-C116-43B7-979B-852B57EAEB93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChainCommander.Sample.Implementation", "src\Sample\Implementation\ChainCommander.Sample.Implementation.csproj", "{FE6CCDB9-C116-43B7-979B-852B57EAEB93}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.ConsoleApp", "Sample.Console\Sample.ConsoleApp.csproj", "{C407E8FA-68F7-462A-987F-B9CE0945B1A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChainCommander.Sample.ConsoleApp", "src\Sample\Console\ChainCommander.Sample.ConsoleApp.csproj", "{C407E8FA-68F7-462A-987F-B9CE0945B1A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChainCommander", "ChainCommander\ChainCommander.csproj", "{9CBDAC32-79DC-40A6-AF94-D67CC1AE4847}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChainCommander", "src\ChainCommander\ChainCommander.csproj", "{9CBDAC32-79DC-40A6-AF94-D67CC1AE4847}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Tests", "Sample.Tests\Sample.Tests.csproj", "{7C12B202-33E4-463C-A8AA-D21A488E6EA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChainCommander.Tests", "test\ChainCommander.Tests.csproj", "{7C12B202-33E4-463C-A8AA-D21A488E6EA1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{D66A7E8F-D153-41C9-AE26-C2DA9F304104}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7D5B325F-7263-4CA9-A66B-C80BCF72A264}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +40,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FE6CCDB9-C116-43B7-979B-852B57EAEB93} = {D66A7E8F-D153-41C9-AE26-C2DA9F304104}
+		{C407E8FA-68F7-462A-987F-B9CE0945B1A2} = {D66A7E8F-D153-41C9-AE26-C2DA9F304104}
+		{7C12B202-33E4-463C-A8AA-D21A488E6EA1} = {7D5B325F-7263-4CA9-A66B-C80BCF72A264}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2BC1E5BD-99B3-4048-AC8C-D023EFF2C8CD}

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sample.Implementation
+namespace ChainCommander.Sample.Implementation
 {
     public class Human
     {
