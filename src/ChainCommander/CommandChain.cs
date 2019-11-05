@@ -18,7 +18,7 @@ namespace ChainCommander
 
         internal class SubjectBuilder<TCommandType> : ISubjectBuilder<TCommandType> where TCommandType : Enum
         {
-            private IServiceProvider _serviceProvider;
+            private readonly IServiceProvider _serviceProvider;
 
             internal SubjectBuilder(IServiceProvider serviceProvider)
                 => _serviceProvider = serviceProvider;
@@ -35,8 +35,8 @@ namespace ChainCommander
 
         internal class CommandBuilder<TCommandType, TSubject> : ICommandBuilder<TCommandType, TSubject> where TCommandType : Enum
         {
-            private IEnumerable<TSubject> _subjects;
-            private IEnumerable<ICommandHandler<TCommandType, TSubject>> _handlers;
+            private readonly IEnumerable<TSubject> _subjects;
+            private readonly IEnumerable<ICommandHandler<TCommandType, TSubject>> _handlers;
 
             internal CommandBuilder(IEnumerable<TSubject> subjects, IEnumerable<ICommandHandler<TCommandType, TSubject>> handlers)
             {
@@ -55,8 +55,8 @@ namespace ChainCommander
 
         internal class NextCommandBuilder<TCommandType, TSubjects> : INextCommandBuilder<TCommandType, TSubjects> where TCommandType : Enum
         {
-            private IEnumerable<TSubjects> _subjects;
-            private IEnumerable<ICommandHandler<TCommandType, TSubjects>> _handlers;
+            private readonly IEnumerable<TSubjects> _subjects;
+            private readonly IEnumerable<ICommandHandler<TCommandType, TSubjects>> _handlers;
 
             internal NextCommandBuilder(IEnumerable<TSubjects> subjects, IEnumerable<ICommandHandler<TCommandType, TSubjects>> handlers)
             {

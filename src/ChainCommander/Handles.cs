@@ -2,6 +2,7 @@
 
 namespace ChainCommander
 {
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class HandlesAttribute : Attribute
     {
         public string CommandName { get; }
