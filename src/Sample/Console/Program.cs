@@ -17,9 +17,10 @@ namespace ChainCommander.Sample.ConsoleApp
             commandChain
                 .CreateBasedOn<HumanCommand>()
                 .Using(human1, human2)
-                .Do(HumanCommand.Eat);
-                //.ThenDo(HumanCommand.Run)
-                //.ThenDo(HumanCommand.Sleep);
+                .Do(HumanCommand.Eat)
+                .Do(HumanCommand.Run)
+                .Do(HumanCommand.Sleep)
+                .Execute();
 
             Console.ReadLine();
         }
