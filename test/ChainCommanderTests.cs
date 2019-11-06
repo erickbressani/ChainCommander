@@ -4,7 +4,7 @@ using ChainCommander.Sample.Implementation;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Sample.Tests
+namespace ChainCommander.IntegrationTests
 {
     public class ChainCommanderTests
     {

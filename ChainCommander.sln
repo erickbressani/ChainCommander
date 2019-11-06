@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChainCommander.Sample.Conso
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChainCommander", "src\ChainCommander\ChainCommander.csproj", "{9CBDAC32-79DC-40A6-AF94-D67CC1AE4847}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChainCommander.Tests", "test\ChainCommander.Tests.csproj", "{7C12B202-33E4-463C-A8AA-D21A488E6EA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChainCommander.IntegrationTests", "test\ChainCommander.IntegrationTests.csproj", "{7C12B202-33E4-463C-A8AA-D21A488E6EA1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{D66A7E8F-D153-41C9-AE26-C2DA9F304104}"
 EndProject
