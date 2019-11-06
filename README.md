@@ -6,7 +6,7 @@ Generic Command Structure
 
 ## Usage 
 
-First you have to create an enum that represents all the Command Types:
+First you have to create an enum that represents all the Command:
 
 ```csharp
 public enum HumanCommand
