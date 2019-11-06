@@ -1,5 +1,4 @@
-﻿using ChainCommander.Structure;
-using System;
+﻿using System;
 
 namespace ChainCommander
 {

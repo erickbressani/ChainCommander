@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ChainCommander.Structure
+namespace ChainCommander
 {
     public interface ISubjectBuilder<TCommandType> where TCommandType : Enum
     {

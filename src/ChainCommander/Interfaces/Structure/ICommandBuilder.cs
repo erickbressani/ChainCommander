@@ -1,9 +1,11 @@
 ﻿using System;
 
-namespace ChainCommander.Structure
+namespace ChainCommander
 {
     public interface ICommandBuilder<TCommandType, TSubject> where TCommandType : Enum
     {
-        INextCommandBuilder<TCommandType, TSubject> Do(TCommandType step);
+        ICommandBuilder<TCommandType, TSubject> Do(TCommandType command);
+
+        ICommandExecutionStack<TCommandType, TSubject> Execute();
     }
 }

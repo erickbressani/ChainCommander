@@ -10,5 +10,11 @@ namespace ChainCommander.Sample.Implementation
             subject.IsSleeping = true;
             Console.WriteLine($"{subject.Name} is Sleeping");
         }
+
+        public void Undo(Human subject)
+        {
+            subject.IsSleeping = false;
+            Console.WriteLine($"{subject.Name} is not Sleeping");
+        }
     }
 }

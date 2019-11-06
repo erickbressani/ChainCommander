@@ -10,5 +10,11 @@ namespace ChainCommander.Sample.Implementation
             subject.IsEating = true;
             Console.WriteLine($"{subject.Name} is Eating");
         }
+
+        public void Undo(Human subject)
+        {
+            subject.IsEating = false;
+            Console.WriteLine($"{subject.Name} is not Eating");
+        }
     }
 }

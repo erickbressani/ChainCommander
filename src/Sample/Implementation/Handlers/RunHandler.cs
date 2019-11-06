@@ -10,5 +10,11 @@ namespace ChainCommander.Sample.Implementation
             subject.IsRunning = true;
             Console.WriteLine($"{subject.Name} is Running");
         }
+
+        public void Undo(Human subject)
+        {
+            subject.IsRunning = false;
+            Console.WriteLine($"{subject.Name} is not Running");
+        }
     }
 }
