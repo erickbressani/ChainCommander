@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace ChainCommander
 {
-    public interface ICommandExecutionStack<TCommandType, TSubject> where TCommandType : Enum
+    public interface IExecutionStack<TCommandType, TSubject> where TCommandType : Enum
     {
-        IReadOnlyList<TCommandType> CommandStack { get; }
+        IReadOnlyList<TCommandType> Commands { get; }
 
         void UndoAll();
 

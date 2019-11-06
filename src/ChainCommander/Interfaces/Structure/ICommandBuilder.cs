@@ -6,6 +6,6 @@ namespace ChainCommander
     {
         ICommandBuilder<TCommandType, TSubject> Do(TCommandType command);
 
-        ICommandExecutionStack<TCommandType, TSubject> Execute();
+        IExecutionStack<TCommandType, TSubject> Execute();
     }
 }

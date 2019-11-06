@@ -126,11 +126,11 @@ namespace Sample.Tests
                 .Do(HumanCommand.Run)
                 .Execute();
 
-            Assert.Equal(HumanCommand.Run, executionStack.CommandStack[0]);
-            Assert.Equal(HumanCommand.Eat, executionStack.CommandStack[1]);
-            Assert.Equal(HumanCommand.Run, executionStack.CommandStack[2]);
-            Assert.Equal(HumanCommand.Sleep, executionStack.CommandStack[3]);
-            Assert.Equal(HumanCommand.Run, executionStack.CommandStack[4]);
+            Assert.Equal(HumanCommand.Run, executionStack.Commands[0]);
+            Assert.Equal(HumanCommand.Eat, executionStack.Commands[1]);
+            Assert.Equal(HumanCommand.Run, executionStack.Commands[2]);
+            Assert.Equal(HumanCommand.Sleep, executionStack.Commands[3]);
+            Assert.Equal(HumanCommand.Run, executionStack.Commands[4]);
             Assert.True(human.IsEating);
             Assert.True(human.IsRunning);
             Assert.True(human.IsSleeping);
@@ -151,6 +151,10 @@ namespace Sample.Tests
             var executionStack = commandChain
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
+                .Do(HumanCommand.Run)
+                .Do(HumanCommand.Sleep)
+                .Do(HumanCommand.Walk)
+                .Do(HumanCommand.Work)
                 .Do(HumanCommand.Eat)
                 .Execute();
 
@@ -158,6 +162,10 @@ namespace Sample.Tests
 
             static void assert(Human human)
             {
+                Assert.True(human.IsRunning);
+                Assert.True(human.IsSleeping);
+                Assert.True(human.IsWalking);
+                Assert.True(human.IsWorking);
                 Assert.False(human.IsEating);
             }
 
@@ -174,13 +182,15 @@ namespace Sample.Tests
 
             var humans = new List<Human>() { human1, human2 };
 
-            commandChain
+            var executionStack = commandChain
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
                 .Execute();
+
+            executionStack.UndoLast(2);
 
             static void assert(Human human)
             {
@@ -202,13 +212,15 @@ namespace Sample.Tests
 
             var humans = new List<Human>() { human1, human2 };
 
-            commandChain
+            var executionStack = commandChain
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
                 .Execute();
+
+            executionStack.UndoLast(10);
 
             static void assert(Human human)
             {
@@ -230,13 +242,15 @@ namespace Sample.Tests
 
             var humans = new List<Human>() { human1, human2 };
 
-            commandChain
+            var executionStack = commandChain
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
                 .Execute();
+
+            executionStack.UndoAll();
 
             static void assert(Human human)
             {
@@ -258,7 +272,7 @@ namespace Sample.Tests
 
             var humans = new List<Human>() { human1, human2 };
 
-            commandChain
+            var executionStack = commandChain
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
@@ -266,6 +280,8 @@ namespace Sample.Tests
                 .Do(HumanCommand.Sleep)
                 .Do(HumanCommand.Work)
                 .Execute();
+
+            executionStack.UndoAll();
 
             static void assert(Human human)
             {
@@ -288,7 +304,7 @@ namespace Sample.Tests
 
             var humans = new List<Human>() { human1, human2 };
 
-            commandChain
+            var executionStack = commandChain
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
@@ -296,10 +312,204 @@ namespace Sample.Tests
                 .Do(HumanCommand.Sleep)
                 .Execute();
 
+            executionStack.Undo(HumanCommand.Run);
+
             static void assert(Human human)
             {
                 Assert.True(human.IsEating);
                 Assert.False(human.IsRunning);
+                Assert.True(human.IsSleeping);
+            }
+
+            humans.ForEach(assert);
+        }
+
+        [Fact]
+        public void RedoLast()
+        {
+            var commandChain = _serviceProvider.GetService<ICommandChain>();
+
+            var human1 = new Human();
+            var human2 = new Human();
+
+            var humans = new List<Human>() { human1, human2 };
+
+            var executionStack = commandChain
+                .CreateBasedOn<HumanCommand>()
+                .Using<Human>(humans)
+                .Do(HumanCommand.Run)
+                .Do(HumanCommand.Work)
+                .Do(HumanCommand.Walk)
+                .Do(HumanCommand.Sleep)
+                .Do(HumanCommand.Eat)
+                .Execute();
+
+            executionStack.UndoLast(2);
+            executionStack.RedoLast();
+
+            static void assert(Human human)
+            {
+                Assert.True(human.IsRunning);
+                Assert.True(human.IsWorking);
+                Assert.True(human.IsWalking);
+                Assert.False(human.IsSleeping);
+                Assert.True(human.IsEating);
+            }
+
+            humans.ForEach(assert);
+        }
+
+        [Fact]
+        public void RedoLastTwo()
+        {
+            var commandChain = _serviceProvider.GetService<ICommandChain>();
+
+            var human1 = new Human();
+            var human2 = new Human();
+
+            var humans = new List<Human>() { human1, human2 };
+
+            var executionStack = commandChain
+                .CreateBasedOn<HumanCommand>()
+                .Using<Human>(humans)
+                .Do(HumanCommand.Eat)
+                .Do(HumanCommand.Run)
+                .Do(HumanCommand.Sleep)
+                .Execute();
+
+            executionStack.UndoLast(2);
+            executionStack.RedoLast(2);
+
+            static void assert(Human human)
+            {
+                Assert.True(human.IsEating);
+                Assert.True(human.IsRunning);
+                Assert.True(human.IsSleeping);
+            }
+
+            humans.ForEach(assert);
+        }
+
+        [Fact]
+        public void RedoLastMoreThanLenght()
+        {
+            var commandChain = _serviceProvider.GetService<ICommandChain>();
+
+            var human1 = new Human();
+            var human2 = new Human();
+
+            var humans = new List<Human>() { human1, human2 };
+
+            var executionStack = commandChain
+                .CreateBasedOn<HumanCommand>()
+                .Using<Human>(humans)
+                .Do(HumanCommand.Eat)
+                .Do(HumanCommand.Run)
+                .Do(HumanCommand.Sleep)
+                .Execute();
+
+            executionStack.UndoLast(10);
+            executionStack.RedoLast(10);
+
+            static void assert(Human human)
+            {
+                Assert.True(human.IsEating);
+                Assert.True(human.IsRunning);
+                Assert.True(human.IsSleeping);
+            }
+
+            humans.ForEach(assert);
+        }
+
+        [Fact]
+        public void RedoAll()
+        {
+            var commandChain = _serviceProvider.GetService<ICommandChain>();
+
+            var human1 = new Human();
+            var human2 = new Human();
+
+            var humans = new List<Human>() { human1, human2 };
+
+            var executionStack = commandChain
+                .CreateBasedOn<HumanCommand>()
+                .Using<Human>(humans)
+                .Do(HumanCommand.Eat)
+                .Do(HumanCommand.Run)
+                .Do(HumanCommand.Sleep)
+                .Execute();
+
+            executionStack.UndoAll();
+            executionStack.RedoAll();
+
+            static void assert(Human human)
+            {
+                Assert.True(human.IsEating);
+                Assert.True(human.IsRunning);
+                Assert.True(human.IsSleeping);
+            }
+
+            humans.ForEach(assert);
+        }
+
+        [Fact]
+        public void RedoWithNoUndoImplementation()
+        {
+            var commandChain = _serviceProvider.GetService<ICommandChain>();
+
+            var human1 = new Human();
+            var human2 = new Human();
+
+            var humans = new List<Human>() { human1, human2 };
+
+            var executionStack = commandChain
+                .CreateBasedOn<HumanCommand>()
+                .Using<Human>(humans)
+                .Do(HumanCommand.Eat)
+                .Do(HumanCommand.Run)
+                .Do(HumanCommand.Sleep)
+                .Do(HumanCommand.Work)
+                .Execute();
+
+            executionStack.UndoAll();
+            executionStack.RedoAll();
+
+            static void assert(Human human)
+            {
+                Assert.True(human.IsEating);
+                Assert.True(human.IsRunning);
+                Assert.True(human.IsSleeping);
+                Assert.True(human.IsWorking);
+            }
+
+            humans.ForEach(assert);
+        }
+
+        [Fact]
+        public void Redo()
+        {
+            var commandChain = _serviceProvider.GetService<ICommandChain>();
+
+            var human1 = new Human();
+            var human2 = new Human();
+
+            var humans = new List<Human>() { human1, human2 };
+
+            var executionStack = commandChain
+                .CreateBasedOn<HumanCommand>()
+                .Using<Human>(humans)
+                .Do(HumanCommand.Eat)
+                .Do(HumanCommand.Run)
+                .Do(HumanCommand.Sleep)
+                .Execute();
+
+            executionStack.Undo(HumanCommand.Run);
+            executionStack.Redo(HumanCommand.Run);
+
+            static void assert(Human human)
+            {
+                Assert.True(human.IsEating);
+                Assert.True(human.IsRunning);
                 Assert.True(human.IsSleeping);
             }
 

@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ChainCommander.Extensions;
 
 namespace ChainCommander
 {
-    internal class Execution<TCommandType, TSubject> : ICommandExecutionStack<TCommandType, TSubject> where TCommandType : Enum
+    internal class ExecutionStack<TCommandType, TSubject> : IExecutionStack<TCommandType, TSubject> where TCommandType : Enum
     {
-        public IReadOnlyList<TCommandType> CommandStack { get; }
+        public IReadOnlyList<TCommandType> Commands { get; }
 
         private readonly IEnumerable<TSubject> _subjects;
         private readonly List<ICommandHandler<TCommandType, TSubject>> _commandHandlers;
 
-        internal Execution(IEnumerable<TSubject> subjects)
+        internal ExecutionStack(IEnumerable<TSubject> subjects)
         {
+            Commands = new List<TCommandType>();
             _subjects = subjects;
             _commandHandlers = new List<ICommandHandler<TCommandType, TSubject>>();
-            CommandStack = new List<TCommandType>();
         }
 
         public void Add(IEnumerable<ICommandHandler<TCommandType, TSubject>> commandHandlers, TCommandType command)
         {
             _commandHandlers.AddRange(commandHandlers);
-            (CommandStack as List<TCommandType>)?.Add(command);
+            (Commands as List<TCommandType>)?.Add(command);
         }
 
         public void Execute()
@@ -31,18 +32,7 @@ namespace ChainCommander
             => _commandHandlers.Undo(_subjects);
 
         public void UndoLast(int howMany = 1)
-        {
-            int handlersCount = _commandHandlers.Count;
-
-            if (howMany > handlersCount)
-                howMany = handlersCount;
-
-            for (; howMany > 0; howMany--)
-            {
-                var handler = _commandHandlers.ToArray()[howMany - 1];
-                handler.Undo(_subjects);
-            }
-        }
+            => OperateLast(OperationType.Undo, howMany);
 
         public void Undo(TCommandType command)
         {
@@ -55,24 +45,31 @@ namespace ChainCommander
             => Execute();
 
         public void RedoLast(int howMany = 1)
-        {
-            int handlersCount = _commandHandlers.Count;
-
-            if (howMany > handlersCount)
-                howMany = handlersCount;
-
-            for (; howMany > 0; howMany--)
-            {
-                var handler = _commandHandlers.ToArray()[howMany - 1];
-                handler.Do(_subjects);
-            }
-        }
+            => OperateLast(OperationType.Redo, howMany);
 
         public void Redo(TCommandType command)
         {
             _commandHandlers
                 .GetBy(command)
                 .Do(_subjects);
+        }
+
+        private void OperateLast(OperationType operationType, int howMany)
+        {
+            int handlersCount = _commandHandlers.Count;
+
+            if (howMany > handlersCount)
+                howMany = handlersCount;
+
+            for (int  iteration = 0;  iteration < howMany;  iteration++)
+            {
+                var handler = _commandHandlers[handlersCount - iteration - 1];
+
+                if (operationType == OperationType.Undo)
+                    handler.Undo(_subjects);
+                else
+                    handler.Do(_subjects);
+            }
         }
     }
 }
