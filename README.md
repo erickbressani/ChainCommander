@@ -2,7 +2,7 @@
 Generic Command Structure with Undo and Redo features
 
 ## Nuget
-> Install-Package ChainCommander -Version 2.0.0
+> Install-Package ChainCommander -Version 3.0.0
 
 ## Usage 
 
