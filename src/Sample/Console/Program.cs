@@ -9,12 +9,12 @@ namespace ChainCommander.Sample.ConsoleApp
         public static void Main()
         {
             var serviceProvider = BuildServiceProvider();
-            var commandChain = serviceProvider.GetService<IChainCommander>();
+            var chainCommander = serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human() { Name = "John" };
             var human2 = new Human() { Name = "Logan" };
 
-            commandChain
+            chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using(human1, human2)
                 .Do(HumanCommand.Eat)
