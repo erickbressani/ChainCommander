@@ -51,7 +51,7 @@ Don't forget to inject the Handlers and the CommandChain class:
 .AddTransient<ICommandHandler<HumanCommand, Human>, WalkHandler>()
 .AddTransient<ICommandHandler<HumanCommand, Human>, RunHandler>()
 .AddTransient<ICommandHandler<HumanCommand, Human>, WorkHandler>()
-.AddTransient<ICommandChain, CommandChain>()
+.AddChainCommander() //Injects IChainCommander
 ...
 ```
 
@@ -102,11 +102,11 @@ public class WorkHandler : ICommandHandler<HumanCommand, Human>
 
 ### Building the Command Chain:
 ```csharp
-var commandChain = serviceProvider.GetService<ICommandChain>();
+var chainCommander = serviceProvider.GetService<IChainCommander>();
 
 var human = new Human() { Name = "John" };
 
-commandChain
+chainCommander
     .CreateBasedOn<HumanCommand>()
     .Using(human)
     .Do(HumanCommand.Eat)
@@ -126,12 +126,12 @@ commandChain
 You can also create your chain using more than one subject:
 
 ```csharp
-var commandChain = serviceProvider.GetService<ICommandChain>();
+var chainCommander = serviceProvider.GetService<IChainCommander>();
 
 var human1 = new Human() { Name = "John" };
 var human2 = new Human() { Name = "Logan" };
 
-commandChain
+chainCommander
     .CreateBasedOn<HumanCommand>()
     .Using(human1, human2)
     .Do(HumanCommand.Eat)
@@ -160,7 +160,7 @@ After the Chain executes it will return an IExecutionStack, this interface conta
 ```csharp
 ...
 
-var executionStack = commandChain
+var executionStack = chainCommander
     .CreateBasedOn<HumanCommand>()
     .Using(human1, human2)
     .Do(HumanCommand.Eat)
