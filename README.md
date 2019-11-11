@@ -51,7 +51,7 @@ Don't forget to inject the Handlers and the CommandChain class:
 .AddTransient<ICommandHandler<HumanCommand, Human>, WalkHandler>()
 .AddTransient<ICommandHandler<HumanCommand, Human>, RunHandler>()
 .AddTransient<ICommandHandler<HumanCommand, Human>, WorkHandler>()
-.AddChainCommander() //Injects IChainCommander
+.AddChainCommander() //Extension method that injects IChainCommander
 ...
 ```
 
