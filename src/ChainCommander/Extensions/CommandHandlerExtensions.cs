@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ChainCommander.Extensions
+namespace ChainCommander
 {
-    internal static class CommandHandlerExtension
+    internal static class CommandHandlerExtensions
     {
         internal static IEnumerable<ICommandHandler<TCommandType, TSubject>> GetBy<TCommandType, TSubject>(
             this IEnumerable<ICommandHandler<TCommandType, TSubject>> handlers,

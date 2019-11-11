@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ChainCommander.Extensions
+namespace ChainCommander
 {
-    internal static class ServiceProviderExtension
+    internal static class ServiceProviderExtensions
     {
         internal static IEnumerable<ICommandHandler<TCommandType, TSubject>> GetAllHandlers<TCommandType, TSubject>(this IServiceProvider serviceProvider) where TCommandType : Enum
             => serviceProvider.GetServices<ICommandHandler<TCommandType, TSubject>>();

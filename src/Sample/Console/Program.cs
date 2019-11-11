@@ -9,7 +9,7 @@ namespace ChainCommander.Sample.ConsoleApp
         public static void Main()
         {
             var serviceProvider = BuildServiceProvider();
-            var commandChain = serviceProvider.GetService<ICommandChain>();
+            var commandChain = serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human() { Name = "John" };
             var human2 = new Human() { Name = "Logan" };
@@ -33,7 +33,7 @@ namespace ChainCommander.Sample.ConsoleApp
                 .AddTransient<ICommandHandler<HumanCommand, Human>, WalkHandler>()
                 .AddTransient<ICommandHandler<HumanCommand, Human>, RunHandler>()
                 .AddTransient<ICommandHandler<HumanCommand, Human>, WorkHandler>()
-                .AddTransient<ICommandChain, CommandChain>()
+                .AddChainCommander()
                 .BuildServiceProvider();
         }
     }

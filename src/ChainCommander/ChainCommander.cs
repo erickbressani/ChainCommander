@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ChainCommander.Extensions;
 
 namespace ChainCommander
 {
-    public class CommandChain : ICommandChain
+    internal class ChainCommander : IChainCommander
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public CommandChain(IServiceProvider serviceProvider)
+        public ChainCommander(IServiceProvider serviceProvider)
             => _serviceProvider = serviceProvider;
 
         public ISubjectBuilder<TCommandType> CreateBasedOn<TCommandType>() where TCommandType : Enum

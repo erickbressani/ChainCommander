@@ -2,7 +2,7 @@
 
 namespace ChainCommander
 {
-    public interface ICommandChain
+    public interface IChainCommander
     {
         ISubjectBuilder<TCommandType> CreateBasedOn<TCommandType>() where TCommandType : Enum;
     }

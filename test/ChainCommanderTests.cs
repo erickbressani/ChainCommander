@@ -22,14 +22,14 @@ namespace ChainCommander.IntegrationTests
                 .AddTransient<ICommandHandler<HumanCommand, Human>, RunHandler>()
                 .AddTransient<ICommandHandler<HumanCommand, Human>, WorkHandler>()
                 .AddTransient<ICommandHandler<HumanCommand, Human>, InvalidHandler>()
-                .AddTransient<ICommandChain, CommandChain>()
+                .AddChainCommander()
                 .BuildServiceProvider();
         }
 
         [Fact]
         public void OneSubject()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human = new Human();
 
@@ -51,7 +51,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void ThreeSubjects()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -82,7 +82,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void ListSubject()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -112,7 +112,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void MoreThanOneOfTheSameCommand()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human = new Human();
 
@@ -141,7 +141,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void UndoLast()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -175,7 +175,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void UndoLastTwo()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -205,7 +205,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void UndoLastMoreThanLenght()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -235,7 +235,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void UndoAll()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -265,7 +265,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void UndoWithNoUndoImplementation()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -297,7 +297,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void Undo()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -327,7 +327,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void RedoLast()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -362,7 +362,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void RedoLastTwo()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -393,7 +393,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void RedoLastMoreThanLenght()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -424,7 +424,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void RedoAll()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -455,7 +455,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void RedoWithNoUndoImplementation()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
@@ -488,7 +488,7 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public void Redo()
         {
-            var commandChain = _serviceProvider.GetService<ICommandChain>();
+            var commandChain = _serviceProvider.GetService<IChainCommander>();
 
             var human1 = new Human();
             var human2 = new Human();
