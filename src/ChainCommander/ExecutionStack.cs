@@ -5,22 +5,24 @@ namespace ChainCommander
 {
     internal class ExecutionStack<TCommandType, TSubject> : IExecutionStack<TCommandType, TSubject> where TCommandType : Enum
     {
-        public IReadOnlyList<TCommandType> Commands { get; }
+        public IReadOnlyList<TCommandType> Commands
+            => _commands;
 
         private readonly IEnumerable<TSubject> _subjects;
         private readonly List<ICommandHandler<TCommandType, TSubject>> _commandHandlers;
+        private readonly List<TCommandType> _commands;
 
         internal ExecutionStack(IEnumerable<TSubject> subjects)
         {
-            Commands = new List<TCommandType>();
             _subjects = subjects;
             _commandHandlers = new List<ICommandHandler<TCommandType, TSubject>>();
+            _commands = new List<TCommandType>();
         }
 
         public void Add(IEnumerable<ICommandHandler<TCommandType, TSubject>> commandHandlers, TCommandType command)
         {
             _commandHandlers.AddRange(commandHandlers);
-            (Commands as List<TCommandType>)?.Add(command);
+            _commands.Add(command);
         }
 
         public void Execute()

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ChainCommander.Sample.Implementation
 {
+    [ExcludeFromCodeCoverage]
     [Handles(HumanCommand.Eat)]
     public class EatHandler : ICommandHandler<HumanCommand, Human>
     {

@@ -8,8 +8,5 @@ namespace ChainCommander
     {
         internal static IEnumerable<ICommandHandler<TCommandType, TSubject>> GetAllHandlers<TCommandType, TSubject>(this IServiceProvider serviceProvider) where TCommandType : Enum
             => serviceProvider.GetServices<ICommandHandler<TCommandType, TSubject>>();
-
-        internal static IEnumerable<ICommandHandler<TCommandType, TSubject>> GetHandlers<TCommandType, TSubject>(this IServiceProvider serviceProvider) where TCommandType : Enum
-            => serviceProvider.GetServices<ICommandHandler<TCommandType, TSubject>>();
     }
 }

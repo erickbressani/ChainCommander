@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ChainCommander.Sample.Implementation
 {
+    [ExcludeFromCodeCoverage]
     public class Human
     {
         public Guid Id { get; set; }

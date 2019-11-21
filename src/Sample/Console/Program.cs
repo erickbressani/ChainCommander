@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using ChainCommander.Sample.Implementation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ChainCommander.Sample.ConsoleApp
 {
+    [ExcludeFromCodeCoverage]
     public static class Program
     {
         public static void Main()

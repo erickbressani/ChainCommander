@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using ChainCommander;
+using System.Diagnostics.CodeAnalysis;
 using ChainCommander.Sample.Implementation;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace ChainCommander.IntegrationTests
 {
+    [ExcludeFromCodeCoverage]
     public class ChainCommanderTests
     {
         private readonly ServiceProvider _serviceProvider;

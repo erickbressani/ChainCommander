@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ChainCommander.Sample.Implementation
 {
+    [ExcludeFromCodeCoverage]
     [Handles(HumanCommand.Sleep)]
     public class SleepHandler : ICommandHandler<HumanCommand, Human>
     {

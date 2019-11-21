@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ChainCommander.Sample.Implementation
 {
+    [ExcludeFromCodeCoverage]
     [Handles(HumanCommand.Run)]
     public class RunHandler : ICommandHandler<HumanCommand, Human>
     {
