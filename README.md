@@ -2,7 +2,7 @@
 Generic Command Structure with Undo and Redo features
 
 ## Nuget
-> Install-Package ChainCommander -Version 2.0.0
+> Install-Package ChainCommander -Version 3.0.0
 
 ## Usage 
 
@@ -51,7 +51,7 @@ Don't forget to inject the Handlers and the CommandChain class:
 .AddTransient<ICommandHandler<HumanCommand, Human>, WalkHandler>()
 .AddTransient<ICommandHandler<HumanCommand, Human>, RunHandler>()
 .AddTransient<ICommandHandler<HumanCommand, Human>, WorkHandler>()
-.AddChainCommander() //Injects IChainCommander
+.AddChainCommander() //Extension method that injects IChainCommander
 ...
 ```
 
