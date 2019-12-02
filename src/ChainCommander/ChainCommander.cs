@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ChainCommander
 {
@@ -54,6 +55,39 @@ namespace ChainCommander
             public IExecutionStack<TCommandType, TSubject> Execute()
             {
                 _commandExecutionStack.Execute();
+                return _commandExecutionStack;
+            }
+        }
+
+        internal class AsynchronousCommandBuilder<TCommandType, TSubject> : IAsynchronousCommandBuilder<TCommandType, TSubject> where TCommandType : Enum
+        {
+            private readonly IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> _handlers;
+            private readonly AsynchronousExecutionStack<TCommandType, TSubject> _commandExecutionStack;
+
+            internal AsynchronousCommandBuilder(
+                IEnumerable<TSubject> subjects,
+                IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> handlers)
+            {
+                _handlers = handlers;
+                _commandExecutionStack = new AsynchronousExecutionStack<TCommandType, TSubject>(subjects);
+            }
+
+            public IAsynchronousCommandBuilder<TCommandType, TSubject> Do(TCommandType command)
+            {
+                var handlers = _handlers.GetBy(command);
+                _commandExecutionStack.Add(handlers, command);
+                return this;
+            }
+
+            public async Task<IAsynchronousExecutionStack<TCommandType, TSubject>> ExecuteAsync()
+            {
+                await _commandExecutionStack.ExecuteAsync().ConfigureAwait(false);
+                return _commandExecutionStack;
+            }
+
+            public async Task<IAsynchronousExecutionStack<TCommandType, TSubject>> ExecuteInOrderAsync()
+            {
+                await _commandExecutionStack.ExecuteInOrderAsync().ConfigureAwait(false);
                 return _commandExecutionStack;
             }
         }

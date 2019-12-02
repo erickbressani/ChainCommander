@@ -1,17 +1,18 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using ChainCommander.Sample.Implementation;
+using ChainCommander.Sample.Implementation.Sync;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace ChainCommander.IntegrationTests
 {
     [ExcludeFromCodeCoverage]
-    public class ChainCommanderTests
+    public class ChainCommanderSyncTests
     {
         private readonly ServiceProvider _serviceProvider;
 
-        public ChainCommanderTests()
+        public ChainCommanderSyncTests()
             => _serviceProvider = BuildServiceProvider();
 
         private static ServiceProvider BuildServiceProvider()

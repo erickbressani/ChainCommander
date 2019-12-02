@@ -2,6 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 using ChainCommander.Sample.Implementation;
 using Microsoft.Extensions.DependencyInjection;
+using Async = ChainCommander.Sample.Implementation.Async;
+using Sync = ChainCommander.Sample.Implementation.Sync;
 
 namespace ChainCommander.Sample.ConsoleApp
 {
@@ -30,11 +32,16 @@ namespace ChainCommander.Sample.ConsoleApp
         private static ServiceProvider BuildServiceProvider()
         {
             return new ServiceCollection()
-                .AddTransient<ICommandHandler<HumanCommand, Human>, EatHandler>()
-                .AddTransient<ICommandHandler<HumanCommand, Human>, SleepHandler>()
-                .AddTransient<ICommandHandler<HumanCommand, Human>, WalkHandler>()
-                .AddTransient<ICommandHandler<HumanCommand, Human>, RunHandler>()
-                .AddTransient<ICommandHandler<HumanCommand, Human>, WorkHandler>()
+                .AddTransient<ICommandHandler<HumanCommand, Human>, Sync.EatHandler>()
+                .AddTransient<ICommandHandler<HumanCommand, Human>, Sync.SleepHandler>()
+                .AddTransient<ICommandHandler<HumanCommand, Human>, Sync.WalkHandler>()
+                .AddTransient<ICommandHandler<HumanCommand, Human>, Sync.RunHandler>()
+                .AddTransient<ICommandHandler<HumanCommand, Human>, Sync.WorkHandler>()
+                .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, Async.EatHandler>()
+                .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, Async.SleepHandler>()
+                .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, Async.WalkHandler>()
+                .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, Async.RunHandler>()
+                .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, Async.WorkHandler>()
                 .AddChainCommander()
                 .BuildServiceProvider();
         }

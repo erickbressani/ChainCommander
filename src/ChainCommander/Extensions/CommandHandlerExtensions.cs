@@ -52,9 +52,9 @@ namespace ChainCommander
             IEnumerable<TSubject> subjects)
             where TCommandType : Enum
         {
-            foreach (var handler in handlers)
+            foreach (var subject in subjects)
             {
-                foreach (var subject in subjects)
+                foreach (var handler in handlers)
                     handler.Undo(subject);
             }
         }

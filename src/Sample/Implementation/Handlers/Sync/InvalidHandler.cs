@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ChainCommander.Sample.Implementation
+namespace ChainCommander.Sample.Implementation.Sync
 {
     /// <summary>
     /// This is a example of an invalid handler, without the "Handles" attribute.
