@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ChainCommander.Sample.Implementation.Async
@@ -12,7 +13,7 @@ namespace ChainCommander.Sample.Implementation.Async
     [ExcludeFromCodeCoverage]
     public class InvalidHandler : IAsynchronousCommandHandler<HumanCommand, Human>
     {
-        public Task HandleAsync(Human subject)
+        public Task HandleAsync(Human subject, CancellationToken cancellationToken)
             => throw new NotImplementedException();
     }
 }

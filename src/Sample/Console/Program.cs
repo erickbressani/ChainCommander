@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using ChainCommander.Sample.Implementation;
 using Microsoft.Extensions.DependencyInjection;
 using Async = ChainCommander.Sample.Implementation.Async;
@@ -10,7 +11,7 @@ namespace ChainCommander.Sample.ConsoleApp
     [ExcludeFromCodeCoverage]
     public static class Program
     {
-        public static void Main()
+        public async static Task Main()
         {
             var serviceProvider = BuildServiceProvider();
             var chainCommander = serviceProvider.GetService<IChainCommander>();
@@ -18,15 +19,20 @@ namespace ChainCommander.Sample.ConsoleApp
             var human1 = new Human() { Name = "John" };
             var human2 = new Human() { Name = "Logan" };
 
-            chainCommander
+            for (int i = 0; i < 50; i++)
+            {
+
+                await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using(human1, human2)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
-                .Execute();
+                .ExecuteAsync()
+                .ConfigureAwait(false);
 
-            Console.ReadLine();
+                Console.WriteLine(" ------------- ");
+            }
         }
 
         private static ServiceProvider BuildServiceProvider()

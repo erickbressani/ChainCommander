@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ChainCommander
@@ -23,68 +24,74 @@ namespace ChainCommander
 
         internal static Task DoAsync<TCommandType, TSubject>(
             this IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> handlers,
-            IEnumerable<TSubject> subjects)
+            IEnumerable<TSubject> subjects,
+            CancellationToken cancellationToken)
             where TCommandType : Enum
         {
             var tasks = new List<Task>();
 
             foreach (var subject in subjects)
-                tasks.Add(handlers.DoAsync(subject));
+                tasks.Add(handlers.DoAsync(subject, cancellationToken));
 
             return Task.WhenAll(tasks);
         }
 
         internal static Task DoAsync<TCommandType, TSubject>(
            this IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> handlers,
-           TSubject subject)
+           TSubject subject,
+           CancellationToken cancellationToken)
            where TCommandType : Enum
         {
             var tasks = new List<Task>();
 
             foreach (var handler in handlers)
-                tasks.Add(handler.HandleAsync(subject));
+                tasks.Add(handler.HandleAsync(subject, cancellationToken));
 
             return Task.WhenAll(tasks);
         }
 
         internal static Task DoAsync<TCommandType, TSubject>(
             this IAsynchronousCommandHandler<TCommandType, TSubject> handler,
-            IEnumerable<TSubject> subjects)
+            IEnumerable<TSubject> subjects,
+           CancellationToken cancellationToken)
             where TCommandType : Enum
         {
             var tasks = new List<Task>();
 
             foreach (var subject in subjects)
-                tasks.Add(handler.HandleAsync(subject));
+                tasks.Add(handler.HandleAsync(subject, cancellationToken));
 
             return Task.WhenAll(tasks);
         }
 
         internal static Task DoInOrderAsync<TCommandType, TSubject>(
             this IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> handlers,
-            IEnumerable<TSubject> subjects)
+            IEnumerable<TSubject> subjects,
+            CancellationToken cancellationToken)
             where TCommandType : Enum
         {
             var tasks = new List<Task>();
 
             foreach (var subject in subjects)
-                tasks.Add(handlers.DoInOrderAsync(subject));
+                tasks.Add(handlers.DoInOrderAsync(subject, cancellationToken));
 
             return Task.WhenAll(tasks);
         }
 
         internal static async Task DoInOrderAsync<TCommandType, TSubject>(
             this IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> handlers,
-            TSubject subject)
+            TSubject subject,
+            CancellationToken cancellationToken)
             where TCommandType : Enum
         {
             foreach (var handler in handlers)
-                await handler.HandleAsync(subject).ConfigureAwait(false);
+                await handler.HandleAsync(subject, cancellationToken).ConfigureAwait(false);
         }
 
         internal static Task UndoAsync<TCommandType, TSubject>(
             this IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> handlers,
-            IEnumerable<TSubject> subjects)
+            IEnumerable<TSubject> subjects,
+            CancellationToken cancellationToken)
             where TCommandType : Enum
         {
             var tasks = new List<Task>();
@@ -92,7 +99,7 @@ namespace ChainCommander
             foreach (var subject in subjects)
             {
                 foreach (var handler in handlers)
-                    tasks.Add(handler.UndoAsync(subject));
+                    tasks.Add(handler.UndoAsync(subject, cancellationToken));
             }
 
             return Task.WhenAll(tasks);
@@ -100,36 +107,39 @@ namespace ChainCommander
 
         internal static async Task UndoInOrderAsync<TCommandType, TSubject>(
             this IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> handlers,
-            IEnumerable<TSubject> subjects)
+            IEnumerable<TSubject> subjects,
+            CancellationToken cancellationToken)
             where TCommandType : Enum
         {
             foreach (var subject in subjects)
             {
                 foreach (var handler in handlers)
-                    await handler.UndoAsync(subject).ConfigureAwait(false);
+                    await handler.UndoAsync(subject, cancellationToken).ConfigureAwait(false);
             }
         }
 
         internal static Task UndoAsync<TCommandType, TSubject>(
             this IAsynchronousCommandHandler<TCommandType, TSubject> handler,
-            IEnumerable<TSubject> subjects)
+            IEnumerable<TSubject> subjects,
+            CancellationToken cancellationToken)
             where TCommandType : Enum
         {
             var tasks = new List<Task>();
 
             foreach (var subject in subjects)
-                tasks.Add(handler.UndoAsync(subject));
+                tasks.Add(handler.UndoAsync(subject, cancellationToken));
 
             return Task.WhenAll(tasks);
         }
 
         internal static async Task UndoInOrderAsync<TCommandType, TSubject>(
             this IAsynchronousCommandHandler<TCommandType, TSubject> handler,
-            IEnumerable<TSubject> subjects)
+            IEnumerable<TSubject> subjects,
+            CancellationToken cancellationToken)
             where TCommandType : Enum
         {
             foreach (var subject in subjects)
-                await handler.UndoAsync(subject).ConfigureAwait(false);
+                await handler.UndoAsync(subject, cancellationToken).ConfigureAwait(false);
         }
 
         private static string GetCommandName<TCommandType, TSubject>(
