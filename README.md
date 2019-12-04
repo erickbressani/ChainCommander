@@ -257,7 +257,7 @@ await chainCommander
     .ConfigureAwait(false);
     
 ... = executionStack.Commands; //A read only list with all the Commands executed in order.
-
+//Sync
 executionStack.UndoAll(); //Calls the Undo method from all the Handlers on the stack.
 executionStack.UndoLast(); //Calls the Undo method from the last executed Handler on the stack.
 executionStack.UndoLast(3); //Calls the Undo method from all the last executed Handlers on the stack based on the parameter.
@@ -267,4 +267,15 @@ executionStack.RedoAll(); //Calls the Handle method again from all the Handlers 
 executionStack.RedoLast(); //Calls the Handle method again from the last executed Handler on the stack.
 executionStack.RedoLast(3); //Calls the Handle method again from all the last executed Handlers on the stack based on the parameter.
 executionStack.Redo(HumanCommand.Eat); //Calls the Handle method again from all handlers that handles the command passed by parameter.
+
+//Async
+await executionStack.UndoAllAsync(); //Calls the Undo method from all the Handlers on the stack.
+await executionStack.UndoLastAsync(); //Calls the Undo method from the last executed Handler on the stack.
+await executionStack.UndoLastAsync(3); //Calls the Undo method from all the last executed Handlers on the stack based on the parameter.
+await executionStack.UndoAsync(HumanCommand.Eat); //Calls the Undo method from all handlers that handles the command passed by parameter.
+
+await executionStack.RedoAllAsync(); //Calls the Handle method again from all the Handlers on the stack.
+await executionStack.RedoLastAsync(); //Calls the Handle method again from the last executed Handler on the stack.
+await executionStack.RedoLastAsync(3); //Calls the Handle method again from all the last executed Handlers on the stack based on the parameter.
+await executionStack.RedoAsync(HumanCommand.Eat); //Calls the Handle method again from all handlers that handles the command passed by parameter.
 ```
