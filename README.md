@@ -128,12 +128,12 @@ Async Implemantation:
 [Handles(HumanCommand.Eat)]
 public class EatHandler : IAsynchronousCommandHandler<HumanCommand, Human>
 {
-    public void HandleAsync(Human subject, CancellationToken cancellationToken = default)
+    public Task HandleAsync(Human subject, CancellationToken cancellationToken = default)
     {
         ...
     }
     
-    public void UndoAsync(Human subject, CancellationToken cancellationToken = default)
+    public Task UndoAsync(Human subject, CancellationToken cancellationToken = default)
     {
         ...
     }
@@ -142,12 +142,12 @@ public class EatHandler : IAsynchronousCommandHandler<HumanCommand, Human>
 [Handles(HumanCommand.Work)]
 public class WorkHandler : IAsynchronousCommandHandler<HumanCommand, Human>
 {
-    public void HandleAsync(Human subject, CancellationToken cancellationToken = default)
+    public Task HandleAsync(Human subject, CancellationToken cancellationToken = default)
     {
         ...
     }
         
-    public void UndoAsync(Human subject, CancellationToken cancellationToken = default)
+    public Task UndoAsync(Human subject, CancellationToken cancellationToken = default)
     {
         ...
     }
@@ -161,7 +161,7 @@ public class SleepHandler : IAsynchronousCommandHandler<HumanCommand, Human>
         ...
     }
     
-    public void UndoAsync(Human subject, CancellationToken cancellationToken = default)
+    public Task UndoAsync(Human subject, CancellationToken cancellationToken = default)
     {
         ...
     }
@@ -180,7 +180,16 @@ chainCommander
     .Do(HumanCommand.Eat)
     .Do(HumanCommand.Work)
     .Do(HumanCommand.Sleep)
-    .Execute();
+    .Execute(); //Calls Sync handlers
+    
+await chainCommander
+    .CreateBasedOn<HumanCommand>()
+    .Using(human)
+    .Do(HumanCommand.Eat)
+    .Do(HumanCommand.Work)
+    .Do(HumanCommand.Sleep)
+    .ExecuteAsync() //Calls Async handlers
+    .ConfigureAwait(false); 
 ```
 
 #### Console:
@@ -205,7 +214,7 @@ chainCommander
     .Do(HumanCommand.Eat)
     .Do(HumanCommand.Work)
     .Do(HumanCommand.Sleep)
-    .Execute();
+    .Execute(); //Or ExecuteAsync
 ```
 #### Console:
 > John is Eating
@@ -228,6 +237,7 @@ After the Chain executes it will return an IExecutionStack, this interface conta
 ```csharp
 ...
 
+//sync
 var executionStack = chainCommander
     .CreateBasedOn<HumanCommand>()
     .Using(human1, human2)
@@ -235,6 +245,16 @@ var executionStack = chainCommander
     .Do(HumanCommand.Work)
     .Do(HumanCommand.Sleep)
     .Execute();
+    
+//async
+await chainCommander
+    .CreateBasedOn<HumanCommand>()
+    .Using(human1, human2)
+    .Do(HumanCommand.Eat)
+    .Do(HumanCommand.Work)
+    .Do(HumanCommand.Sleep)
+    .ExecuteAsync(out var executionStack)
+    .ConfigureAwait(false);
     
 ... = executionStack.Commands; //A read only list with all the Commands executed in order.
 
