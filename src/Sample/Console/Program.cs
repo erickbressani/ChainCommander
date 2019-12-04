@@ -19,10 +19,7 @@ namespace ChainCommander.Sample.ConsoleApp
             var human1 = new Human() { Name = "John" };
             var human2 = new Human() { Name = "Logan" };
 
-            for (int i = 0; i < 50; i++)
-            {
-
-                await chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using(human1, human2)
                 .Do(HumanCommand.Eat)
@@ -30,9 +27,6 @@ namespace ChainCommander.Sample.ConsoleApp
                 .Do(HumanCommand.Sleep)
                 .ExecuteAsync()
                 .ConfigureAwait(false);
-
-                Console.WriteLine(" ------------- ");
-            }
         }
 
         private static ServiceProvider BuildServiceProvider()

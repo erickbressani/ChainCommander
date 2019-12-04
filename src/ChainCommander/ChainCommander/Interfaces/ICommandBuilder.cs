@@ -10,8 +10,8 @@ namespace ChainCommander
 
         IExecutionStack<TCommandType, TSubject> Execute();
 
-        Task<IAsynchronousExecutionStack<TCommandType, TSubject>> ExecuteAsync(CancellationToken cancellationToken = default);
+        Task ExecuteAsync(CancellationToken cancellationToken = default);
 
-        Task<IAsynchronousExecutionStack<TCommandType, TSubject>> ExecuteInOrderAsync(CancellationToken cancellationToken = default);
+        Task ExecuteAsync(out IAsynchronousExecutionStack<TCommandType, TSubject> executionStack, CancellationToken cancellationToken = default);
     }
 }

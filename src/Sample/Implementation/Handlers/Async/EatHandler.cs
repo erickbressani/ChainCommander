@@ -11,7 +11,6 @@ namespace ChainCommander.Sample.Implementation.Async
     {
         public Task HandleAsync(Human subject, CancellationToken cancellationToken)
         {
-            Task.Delay(TimeSpan.FromSeconds(13)).Wait();
             subject.IsEating = true;
             Console.WriteLine($"{subject.Name} is Eating");
             return Task.CompletedTask;

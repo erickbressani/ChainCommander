@@ -30,20 +30,11 @@ namespace ChainCommander
         public Task ExecuteAsync(CancellationToken cancellationToken)
             => _commandHandlers.DoAsync(_subjects, cancellationToken);
 
-        public Task ExecuteInOrderAsync(CancellationToken cancellationToken)
-            => _commandHandlers.DoInOrderAsync(_subjects, cancellationToken);
-
         public Task UndoAllAsync(CancellationToken cancellationToken = default)
             => _commandHandlers.UndoAsync(_subjects, cancellationToken);
 
-        public Task UndoAllInOrderAsync(CancellationToken cancellationToken = default)
-            => _commandHandlers.UndoInOrderAsync(_subjects, cancellationToken);
-
         public Task UndoLastAsync(int howMany = 1, CancellationToken cancellationToken = default)
             => OperateLastAsync(OperationType.Undo, howMany, cancellationToken);
-
-        public Task UndoLastInOrderAsync(int howMany, CancellationToken cancellationToken = default)
-            => OperateLastInOrderAsync(OperationType.Undo, howMany, cancellationToken);
 
         public Task UndoAsync(TCommandType command, CancellationToken cancellationToken = default)
         {
@@ -55,14 +46,8 @@ namespace ChainCommander
         public Task RedoAllAsync(CancellationToken cancellationToken = default)
             => _commandHandlers.DoAsync(_subjects, cancellationToken);
 
-        public Task RedoAllInOrderAsync(CancellationToken cancellationToken = default)
-            => _commandHandlers.DoInOrderAsync(_subjects, cancellationToken);
-
         public Task RedoLastAsync(int howMany = 1, CancellationToken cancellationToken = default)
             => OperateLastAsync(OperationType.Redo, howMany, cancellationToken);
-
-        public Task RedoLastInOrderAsync(int howMany, CancellationToken cancellationToken = default)
-            => OperateLastInOrderAsync(OperationType.Redo, howMany, cancellationToken);
 
         public Task RedoAsync(TCommandType command, CancellationToken cancellationToken = default)
         {
@@ -90,24 +75,6 @@ namespace ChainCommander
             }
 
             return Task.WhenAll(tasks);
-        }
-
-        private async Task OperateLastInOrderAsync(OperationType operationType, int howMany, CancellationToken cancellationToken)
-        {
-            int handlersCount = _commandHandlers.Count;
-
-            if (howMany > handlersCount)
-                howMany = handlersCount;
-
-            for (int iteration = 0; iteration < howMany; iteration++)
-            {
-                var handler = _commandHandlers[handlersCount - iteration - 1];
-
-                if (operationType == OperationType.Undo)
-                    await handler.UndoAsync(_subjects, cancellationToken).ConfigureAwait(false);
-                else
-                    await handler.DoAsync(_subjects, cancellationToken).ConfigureAwait(false);
-            }
         }
     }
 }

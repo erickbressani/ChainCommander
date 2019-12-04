@@ -67,17 +67,14 @@ namespace ChainCommander
                 return _syncCommandExecutionStack;
             }
 
-            public async Task<IAsynchronousExecutionStack<TCommandType, TSubject>> ExecuteAsync(CancellationToken cancellationToken = default)
+            public Task ExecuteAsync(out IAsynchronousExecutionStack<TCommandType, TSubject> executionStack, CancellationToken cancellationToken = default)
             {
-                await _asyncCommandExecutionStack.ExecuteAsync(cancellationToken).ConfigureAwait(false);
-                return _asyncCommandExecutionStack;
+                executionStack = _asyncCommandExecutionStack;
+                return _asyncCommandExecutionStack.ExecuteAsync(cancellationToken);
             }
 
-            public async Task<IAsynchronousExecutionStack<TCommandType, TSubject>> ExecuteInOrderAsync(CancellationToken cancellationToken = default)
-            {
-                await _asyncCommandExecutionStack.ExecuteInOrderAsync(cancellationToken).ConfigureAwait(false);
-                return _asyncCommandExecutionStack;
-            }
+            public Task ExecuteAsync(CancellationToken cancellationToken = default)
+                => _asyncCommandExecutionStack.ExecuteAsync(cancellationToken);
         }
     }
 }
