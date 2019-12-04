@@ -2,7 +2,7 @@
 Generic Command Structure with Undo and Redo features
 
 ## Nuget
-> Install-Package ChainCommander -Version 3.0.0
+> Install-Package ChainCommander -Version 3.1.0
 
 ## Usage 
 
@@ -12,9 +12,7 @@ First you have to create an enum that represents all the Command:
 public enum HumanCommand
 {
     Eat,
-    Run,
     Sleep,
-    Walk,
     Work
 }
 ```
@@ -24,6 +22,8 @@ Then the concrete Command Handler classes need to implement this interface: ICom
  - TSubject: The type of the class/interface that will be manipulated by the handlers.
 
 Add the Custom Attribute *Handles* above the Command Handler class, passing the Enum Value as a parameter.
+
+Sync Implemantation:
 
 ```csharp
 [Handles(HumanCommand.Work)]
@@ -42,15 +42,44 @@ public class WorkHandler : ICommandHandler<HumanCommand, Human>
 }
 ```
 
+Async Implemantation:
+
+```csharp
+[Handles(HumanCommand.Work)]
+public class WorkHandler : IAsynchronousCommandHandler<HumanCommand, Human>
+{
+    public Task HandleAsync(Human subject, CancellationToken cancellationToken)
+    {
+        ...
+    }
+
+    public Task UndoAsync(Human subject, CancellationToken cancellationToken)
+    {
+        ...
+    }
+}
+```
+
 Don't forget to inject the Handlers and the CommandChain class:
+
+Sync Implemantation:
 
 ```csharp
 ...
 .AddTransient<ICommandHandler<HumanCommand, Human>, EatHandler>()
 .AddTransient<ICommandHandler<HumanCommand, Human>, SleepHandler>()
-.AddTransient<ICommandHandler<HumanCommand, Human>, WalkHandler>()
-.AddTransient<ICommandHandler<HumanCommand, Human>, RunHandler>()
 .AddTransient<ICommandHandler<HumanCommand, Human>, WorkHandler>()
+.AddChainCommander() //Extension method that injects IChainCommander
+...
+```
+
+Async Implemantation:
+
+```csharp
+...
+.AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, EatHandler>()
+.AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, SleepHandler>()
+.AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, WorkHandler>()
 .AddChainCommander() //Extension method that injects IChainCommander
 ...
 ```
@@ -58,6 +87,9 @@ Don't forget to inject the Handlers and the CommandChain class:
 ## Sample
 
 ### Concrete Handlers:
+
+Sync Implemantation:
+
 ```csharp
 [Handles(HumanCommand.Eat)]
 public class EatHandler : ICommandHandler<HumanCommand, Human>
@@ -69,14 +101,14 @@ public class EatHandler : ICommandHandler<HumanCommand, Human>
         => Console.WriteLine($"{subject.Name} is not Eating");
 }
 
-[Handles(HumanCommand.Run)]
-public class RunHandler : ICommandHandler<HumanCommand, Human>
+[Handles(HumanCommand.Work)]
+public class WorkHandler : ICommandHandler<HumanCommand, Human>
 {
     public void Handle(Human subject)
-        => Console.WriteLine($"{subject.Name} is Running");
+        => Console.WriteLine($"{subject.Name} is Working");
         
     public void Undo(Human subject)
-        => Console.WriteLine($"{subject.Name} is not Running");
+        => Console.WriteLine($"{subject.Name} is not Working");
 }
 
 [Handles(HumanCommand.Sleep)]
@@ -88,15 +120,51 @@ public class SleepHandler : ICommandHandler<HumanCommand, Human>
     public void Undo(Human subject)
         => Console.WriteLine($"{subject.Name} is not Sleeping");
 }
+```
+
+Async Implemantation:
+
+```csharp
+[Handles(HumanCommand.Eat)]
+public class EatHandler : IAsynchronousCommandHandler<HumanCommand, Human>
+{
+    public void HandleAsync(Human subject, CancellationToken cancellationToken = default)
+    {
+        ...
+    }
+    
+    public void UndoAsync(Human subject, CancellationToken cancellationToken = default)
+    {
+        ...
+    }
+}
 
 [Handles(HumanCommand.Work)]
-public class WorkHandler : ICommandHandler<HumanCommand, Human>
+public class WorkHandler : IAsynchronousCommandHandler<HumanCommand, Human>
 {
-    public void Handle(Human subject)
-        => Console.WriteLine($"{subject.Name} is Working");
+    public void HandleAsync(Human subject, CancellationToken cancellationToken = default)
+    {
+        ...
+    }
         
-    public void Undo(Human subject)
-        => Console.WriteLine($"{subject.Name} is not Working");
+    public void UndoAsync(Human subject, CancellationToken cancellationToken = default)
+    {
+        ...
+    }
+}
+
+[Handles(HumanCommand.Sleep)]
+public class SleepHandler : IAsynchronousCommandHandler<HumanCommand, Human>
+{
+    public Task HandleAsync(Human subject, CancellationToken cancellationToken = default)
+    {
+        ...
+    }
+    
+    public void UndoAsync(Human subject, CancellationToken cancellationToken = default)
+    {
+        ...
+    }
 }
 ```
 
@@ -110,7 +178,7 @@ chainCommander
     .CreateBasedOn<HumanCommand>()
     .Using(human)
     .Do(HumanCommand.Eat)
-    .Do(HumanCommand.Run)
+    .Do(HumanCommand.Work)
     .Do(HumanCommand.Sleep)
     .Execute();
 ```
@@ -118,7 +186,7 @@ chainCommander
 #### Console:
 > John is Eating
 
-> John is Running
+> John is Working
 
 > John is Sleeping
 
@@ -135,7 +203,7 @@ chainCommander
     .CreateBasedOn<HumanCommand>()
     .Using(human1, human2)
     .Do(HumanCommand.Eat)
-    .Do(HumanCommand.Run)
+    .Do(HumanCommand.Work)
     .Do(HumanCommand.Sleep)
     .Execute();
 ```
@@ -144,9 +212,9 @@ chainCommander
 
 > Logan is Eating
 
-> John is Running
+> John is Working
 
-> Logan is Running
+> Logan is Working
 
 > John is Sleeping
 
@@ -164,7 +232,7 @@ var executionStack = chainCommander
     .CreateBasedOn<HumanCommand>()
     .Using(human1, human2)
     .Do(HumanCommand.Eat)
-    .Do(HumanCommand.Run)
+    .Do(HumanCommand.Work)
     .Do(HumanCommand.Sleep)
     .Execute();
     
