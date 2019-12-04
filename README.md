@@ -128,12 +128,12 @@ Async Implemantation:
 [Handles(HumanCommand.Eat)]
 public class EatHandler : IAsynchronousCommandHandler<HumanCommand, Human>
 {
-    public Task HandleAsync(Human subject, CancellationToken cancellationToken = default)
+    public Task HandleAsync(Human subject, CancellationToken cancellationToken)
     {
         ...
     }
     
-    public Task UndoAsync(Human subject, CancellationToken cancellationToken = default)
+    public Task UndoAsync(Human subject, CancellationToken cancellationToken)
     {
         ...
     }
@@ -142,12 +142,12 @@ public class EatHandler : IAsynchronousCommandHandler<HumanCommand, Human>
 [Handles(HumanCommand.Work)]
 public class WorkHandler : IAsynchronousCommandHandler<HumanCommand, Human>
 {
-    public Task HandleAsync(Human subject, CancellationToken cancellationToken = default)
+    public Task HandleAsync(Human subject, CancellationToken cancellationToken)
     {
         ...
     }
         
-    public Task UndoAsync(Human subject, CancellationToken cancellationToken = default)
+    public Task UndoAsync(Human subject, CancellationToken cancellationToken)
     {
         ...
     }
@@ -156,12 +156,12 @@ public class WorkHandler : IAsynchronousCommandHandler<HumanCommand, Human>
 [Handles(HumanCommand.Sleep)]
 public class SleepHandler : IAsynchronousCommandHandler<HumanCommand, Human>
 {
-    public Task HandleAsync(Human subject, CancellationToken cancellationToken = default)
+    public Task HandleAsync(Human subject, CancellationToken cancellationToken)
     {
         ...
     }
     
-    public Task UndoAsync(Human subject, CancellationToken cancellationToken = default)
+    public Task UndoAsync(Human subject, CancellationToken cancellationToken)
     {
         ...
     }
