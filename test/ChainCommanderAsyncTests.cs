@@ -1,47 +1,49 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using ChainCommander.Sample.Implementation;
-using ChainCommander.Sample.Implementation.Sync;
+using ChainCommander.Sample.Implementation.Async;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace ChainCommander.IntegrationTests
 {
     [ExcludeFromCodeCoverage]
-    public class ChainCommanderSyncTests
+    public class ChainCommanderAsyncTests
     {
         private readonly ServiceProvider _serviceProvider;
 
-        public ChainCommanderSyncTests()
+        public ChainCommanderAsyncTests()
             => _serviceProvider = BuildServiceProvider();
 
         private static ServiceProvider BuildServiceProvider()
         {
             return new ServiceCollection()
-                .AddTransient<ICommandHandler<HumanCommand, Human>, EatHandler>()
-                .AddTransient<ICommandHandler<HumanCommand, Human>, SleepHandler>()
-                .AddTransient<ICommandHandler<HumanCommand, Human>, WalkHandler>()
-                .AddTransient<ICommandHandler<HumanCommand, Human>, RunHandler>()
-                .AddTransient<ICommandHandler<HumanCommand, Human>, WorkHandler>()
-                .AddTransient<ICommandHandler<HumanCommand, Human>, InvalidHandler>()
+                .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, EatHandler>()
+                .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, SleepHandler>()
+                .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, WalkHandler>()
+                .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, RunHandler>()
+                .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, WorkHandler>()
+                .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, InvalidHandler>()
                 .AddChainCommander()
                 .BuildServiceProvider();
         }
 
         [Fact]
-        public void OneSubject()
+        public async Task OneSubjectAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
             var human = new Human();
 
-            chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using(human)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
-                .Execute();
+                .ExecuteAsync()
+                .ConfigureAwait(false);
 
             Assert.True(human.IsEating);
             Assert.True(human.IsRunning);
@@ -51,7 +53,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void ThreeSubjects()
+        public async Task ThreeSubjectsAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -59,15 +61,16 @@ namespace ChainCommander.IntegrationTests
             var human2 = new Human();
             var human3 = new Human();
 
-            var humans = new List<Human>() { human1, human2, human3 };
+            var humans = new List<Human> { human1, human2, human3 };
 
-            chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using(human1, human2, human3)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
-                .Execute();
+                .ExecuteAsync()
+                .ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -82,7 +85,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void ListOfSubject()
+        public async Task ListOfSubjectAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -90,14 +93,15 @@ namespace ChainCommander.IntegrationTests
             var human2 = new Human();
             var human3 = new Human();
 
-            var humans = new List<Human>() { human1, human2, human3 };
+            var humans = new List<Human> { human1, human2, human3 };
 
-            chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Work)
                 .Do(HumanCommand.Walk)
-                .Execute();
+                .ExecuteAsync()
+                .ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -112,13 +116,13 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void MoreThanOneOfTheSameCommand()
+        public async Task MoreThanOneOfTheSameCommandAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
             var human = new Human();
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using(human)
                 .Do(HumanCommand.Run)
@@ -126,7 +130,8 @@ namespace ChainCommander.IntegrationTests
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
                 .Do(HumanCommand.Run)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
             Assert.Equal(HumanCommand.Run, executionStack.Commands[0]);
             Assert.Equal(HumanCommand.Eat, executionStack.Commands[1]);
@@ -141,7 +146,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void UndoLast()
+        public async Task UndoLastAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -150,7 +155,7 @@ namespace ChainCommander.IntegrationTests
 
             var humans = new List<Human>() { human1, human2 };
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Run)
@@ -158,9 +163,10 @@ namespace ChainCommander.IntegrationTests
                 .Do(HumanCommand.Walk)
                 .Do(HumanCommand.Work)
                 .Do(HumanCommand.Eat)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
-            executionStack.UndoLast();
+            await executionStack.UndoLastAsync().ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -175,7 +181,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void UndoLastTwo()
+        public async Task UndoLastTwoAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -184,15 +190,16 @@ namespace ChainCommander.IntegrationTests
 
             var humans = new List<Human>() { human1, human2 };
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
-            executionStack.UndoLast(2);
+            await executionStack.UndoLastAsync(2).ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -205,7 +212,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void UndoLastMoreThanLenght()
+        public async Task UndoLastMoreThanLenghtAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -214,15 +221,16 @@ namespace ChainCommander.IntegrationTests
 
             var humans = new List<Human>() { human1, human2 };
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
-            executionStack.UndoLast(10);
+            await executionStack.UndoLastAsync(10).ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -235,7 +243,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void UndoAll()
+        public async Task UndoAllAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -244,15 +252,16 @@ namespace ChainCommander.IntegrationTests
 
             var humans = new List<Human>() { human1, human2 };
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
-            executionStack.UndoAll();
+            await executionStack.UndoAllAsync().ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -265,7 +274,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void UndoWithNoUndoImplementation()
+        public async Task UndoWithNoUndoImplementationAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -274,16 +283,17 @@ namespace ChainCommander.IntegrationTests
 
             var humans = new List<Human>() { human1, human2 };
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
                 .Do(HumanCommand.Work)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
-            executionStack.UndoAll();
+            await executionStack.UndoAllAsync().ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -297,7 +307,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void Undo()
+        public async Task UndoAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -306,15 +316,16 @@ namespace ChainCommander.IntegrationTests
 
             var humans = new List<Human>() { human1, human2 };
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
-            executionStack.Undo(HumanCommand.Run);
+            await executionStack.UndoAsync(HumanCommand.Run).ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -327,7 +338,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void RedoLast()
+        public async Task RedoLastAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -336,7 +347,7 @@ namespace ChainCommander.IntegrationTests
 
             var humans = new List<Human>() { human1, human2 };
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Run)
@@ -344,10 +355,11 @@ namespace ChainCommander.IntegrationTests
                 .Do(HumanCommand.Walk)
                 .Do(HumanCommand.Sleep)
                 .Do(HumanCommand.Eat)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
-            executionStack.UndoLast(2);
-            executionStack.RedoLast();
+            await executionStack.UndoLastAsync(2).ConfigureAwait(false);
+            await executionStack.RedoLastAsync().ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -362,7 +374,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void RedoLastTwo()
+        public async Task RedoLastTwoAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -371,16 +383,17 @@ namespace ChainCommander.IntegrationTests
 
             var humans = new List<Human>() { human1, human2 };
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
-            executionStack.UndoLast(2);
-            executionStack.RedoLast(2);
+            await executionStack.UndoLastAsync(2).ConfigureAwait(false);
+            await executionStack.RedoLastAsync(2).ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -393,7 +406,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void RedoLastMoreThanLenght()
+        public async Task RedoLastMoreThanLenghtAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -402,16 +415,17 @@ namespace ChainCommander.IntegrationTests
 
             var humans = new List<Human>() { human1, human2 };
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
-            executionStack.UndoLast(10);
-            executionStack.RedoLast(10);
+            await executionStack.UndoLastAsync(10).ConfigureAwait(false);
+            await executionStack.RedoLastAsync(10).ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -424,7 +438,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void RedoAll()
+        public async Task RedoAllAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -433,16 +447,17 @@ namespace ChainCommander.IntegrationTests
 
             var humans = new List<Human>() { human1, human2 };
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
-            executionStack.UndoAll();
-            executionStack.RedoAll();
+            await executionStack.UndoAllAsync().ConfigureAwait(false);
+            await executionStack.RedoAllAsync().ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -455,7 +470,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void RedoWithNoUndoImplementation()
+        public async Task RedoWithNoUndoImplementationAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -464,17 +479,18 @@ namespace ChainCommander.IntegrationTests
 
             var humans = new List<Human>() { human1, human2 };
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
                 .Do(HumanCommand.Work)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
-            executionStack.UndoAll();
-            executionStack.RedoAll();
+            await executionStack.UndoAllAsync().ConfigureAwait(false);
+            await executionStack.RedoAllAsync().ConfigureAwait(false);
 
             static void assert(Human human)
             {
@@ -488,7 +504,7 @@ namespace ChainCommander.IntegrationTests
         }
 
         [Fact]
-        public void Redo()
+        public async Task RedoAsync()
         {
             var chainCommander = _serviceProvider.GetService<IChainCommander>();
 
@@ -497,16 +513,17 @@ namespace ChainCommander.IntegrationTests
 
             var humans = new List<Human>() { human1, human2 };
 
-            var executionStack = chainCommander
+            await chainCommander
                 .CreateBasedOn<HumanCommand>()
                 .Using<Human>(humans)
                 .Do(HumanCommand.Eat)
                 .Do(HumanCommand.Run)
                 .Do(HumanCommand.Sleep)
-                .Execute();
+                .ExecuteAsync(out var executionStack)
+                .ConfigureAwait(false);
 
-            executionStack.Undo(HumanCommand.Run);
-            executionStack.Redo(HumanCommand.Run);
+            await executionStack.UndoAsync(HumanCommand.Run).ConfigureAwait(false);
+            await executionStack.RedoAsync(HumanCommand.Run).ConfigureAwait(false);
 
             static void assert(Human human)
             {
