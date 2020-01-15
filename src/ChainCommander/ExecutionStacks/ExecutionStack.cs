@@ -12,24 +12,21 @@ namespace ChainCommander
         private readonly CommandHandlersWrapper<TCommandType, TSubject> _handlers;
         private readonly List<TCommandType> _commands;
 
-        internal ExecutionStack(IEnumerable<TSubject> subjects)
+        internal ExecutionStack(IEnumerable<TSubject> subjects, CommandHandlersWrapper<TCommandType, TSubject> handlers)
         {
             _subjects = subjects;
-            _handlers = new CommandHandlersWrapper<TCommandType, TSubject>();
+            _handlers = handlers;
             _commands = new List<TCommandType>();
         }
 
-        public void Add(IEnumerable<ICommandHandler<TCommandType, TSubject>> handlers, TCommandType command)
-        {
-            _handlers.Add(handlers);
-            _commands.Add(command);
-        }
+        public void Add(TCommandType command)
+            => _commands.Add(command);
 
         public void Execute()
-            => _handlers.Do(_subjects);
+            => _handlers.Handle(_commands, _subjects);
 
         public void UndoAll()
-            => _handlers.Undo(_subjects);
+            => _handlers.Undo(_commands, _subjects);
 
         public void UndoLast(int howMany = 1)
             => OperateLast(OperationType.Undo, howMany);
@@ -44,23 +41,23 @@ namespace ChainCommander
             => OperateLast(OperationType.Redo, howMany);
 
         public void Redo(TCommandType command)
-            => _handlers.Do(command, _subjects);
+            => _handlers.Handle(command, _subjects);
 
         private void OperateLast(OperationType operationType, int howMany)
         {
-            int handlersCount = _handlers.Count;
+            int commandsCount = _commands.Count;
 
-            if (howMany > handlersCount)
-                howMany = handlersCount;
+            if (howMany > commandsCount)
+                howMany = commandsCount;
 
-            for (int  iteration = 0;  iteration < howMany;  iteration++)
+            for (int iteration = 0; iteration < howMany; iteration++)
             {
-                var handler = _handlers[handlersCount - iteration - 1];
+                var command = _commands[commandsCount - iteration - 1];
 
                 if (operationType == OperationType.Undo)
-                    handler.Undo(_subjects);
+                    _handlers.Undo(command, _subjects);
                 else
-                    handler.Do(_subjects);
+                    _handlers.Handle(command, _subjects);
             }
         }
     }

@@ -36,7 +36,6 @@ namespace ChainCommander
 
         internal class CommandBuilder<TCommandType, TSubject> : ICommandBuilder<TCommandType, TSubject> where TCommandType : Enum
         {
-            private readonly CommandHandlersWrapper<TCommandType, TSubject> _syncHandlers;
             private readonly IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> _asyncHandlers;
             private readonly ExecutionStack<TCommandType, TSubject> _syncCommandExecutionStack;
             private readonly AsynchronousExecutionStack<TCommandType, TSubject> _asyncCommandExecutionStack;
@@ -46,17 +45,16 @@ namespace ChainCommander
                 IEnumerable<ICommandHandler<TCommandType, TSubject>> syncHandlers,
                 IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> asyncHandlers)
             {
-                _syncHandlers = new CommandHandlersWrapper<TCommandType, TSubject>(syncHandlers);
+                var syncHandlersWrapper = new CommandHandlersWrapper<TCommandType, TSubject>(syncHandlers);
                 _asyncHandlers = asyncHandlers;
-                _syncCommandExecutionStack = new ExecutionStack<TCommandType, TSubject>(subjects);
+                _syncCommandExecutionStack = new ExecutionStack<TCommandType, TSubject>(subjects, syncHandlersWrapper);
                 _asyncCommandExecutionStack = new AsynchronousExecutionStack<TCommandType, TSubject>(subjects);
             }
 
             public ICommandBuilder<TCommandType, TSubject> Do(TCommandType command)
             {
-                var syncHandlers = _syncHandlers.GetBy(command);
                 var asyncHandlers = _asyncHandlers.GetBy(command);
-                _syncCommandExecutionStack.Add(syncHandlers, command);
+                _syncCommandExecutionStack.Add(command);
                 _asyncCommandExecutionStack.Add(asyncHandlers, command);
                 return this;
             }
