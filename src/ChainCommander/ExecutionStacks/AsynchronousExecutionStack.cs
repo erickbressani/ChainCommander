@@ -21,9 +21,9 @@ namespace ChainCommander
             _commands = new List<TCommandType>();
         }
 
-        public void Add(IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> commandHandlers, TCommandType command)
+        public void Add(IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> handlers, TCommandType command)
         {
-            _handlers.AddRange(commandHandlers);
+            _handlers.AddRange(handlers);
             _commands.Add(command);
         }
 
