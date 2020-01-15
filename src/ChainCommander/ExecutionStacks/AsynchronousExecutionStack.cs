@@ -11,47 +11,47 @@ namespace ChainCommander
             => _commands;
 
         private readonly IEnumerable<TSubject> _subjects;
-        private readonly List<IAsynchronousCommandHandler<TCommandType, TSubject>> _commandHandlers;
+        private readonly List<IAsynchronousCommandHandler<TCommandType, TSubject>> _handlers;
         private readonly List<TCommandType> _commands;
 
         internal AsynchronousExecutionStack(IEnumerable<TSubject> subjects)
         {
             _subjects = subjects;
-            _commandHandlers = new List<IAsynchronousCommandHandler<TCommandType, TSubject>>();
+            _handlers = new List<IAsynchronousCommandHandler<TCommandType, TSubject>>();
             _commands = new List<TCommandType>();
         }
 
         public void Add(IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> commandHandlers, TCommandType command)
         {
-            _commandHandlers.AddRange(commandHandlers);
+            _handlers.AddRange(commandHandlers);
             _commands.Add(command);
         }
 
         public Task ExecuteAsync(CancellationToken cancellationToken)
-            => _commandHandlers.DoAsync(_subjects, cancellationToken);
+            => _handlers.DoAsync(_subjects, cancellationToken);
 
         public Task UndoAllAsync(CancellationToken cancellationToken = default)
-            => _commandHandlers.UndoAsync(_subjects, cancellationToken);
+            => _handlers.UndoAsync(_subjects, cancellationToken);
 
         public Task UndoLastAsync(int howMany = 1, CancellationToken cancellationToken = default)
             => OperateLastAsync(OperationType.Undo, howMany, cancellationToken);
 
         public Task UndoAsync(TCommandType command, CancellationToken cancellationToken = default)
         {
-            return _commandHandlers
+            return _handlers
                 .GetBy(command)
                 .UndoAsync(_subjects, cancellationToken);
         }
 
         public Task RedoAllAsync(CancellationToken cancellationToken = default)
-            => _commandHandlers.DoAsync(_subjects, cancellationToken);
+            => _handlers.DoAsync(_subjects, cancellationToken);
 
         public Task RedoLastAsync(int howMany = 1, CancellationToken cancellationToken = default)
             => OperateLastAsync(OperationType.Redo, howMany, cancellationToken);
 
         public Task RedoAsync(TCommandType command, CancellationToken cancellationToken = default)
         {
-            return _commandHandlers
+            return _handlers
                 .GetBy(command)
                 .DoAsync(_subjects, cancellationToken);
         }
@@ -59,14 +59,14 @@ namespace ChainCommander
         private Task OperateLastAsync(OperationType operationType, int howMany, CancellationToken cancellationToken)
         {
             var tasks = new List<Task>();
-            int handlersCount = _commandHandlers.Count;
+            int handlersCount = _handlers.Count;
 
             if (howMany > handlersCount)
                 howMany = handlersCount;
 
             for (int iteration = 0; iteration < howMany; iteration++)
             {
-                var handler = _commandHandlers[handlersCount - iteration - 1];
+                var handler = _handlers[handlersCount - iteration - 1];
 
                 if (operationType == OperationType.Undo)
                     tasks.Add(handler.UndoAsync(_subjects, cancellationToken));

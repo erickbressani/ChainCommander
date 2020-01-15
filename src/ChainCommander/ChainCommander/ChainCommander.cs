@@ -43,10 +43,10 @@ namespace ChainCommander
 
             internal CommandBuilder(
                 IEnumerable<TSubject> subjects,
-                IEnumerable<ICommandHandler<TCommandType, TSubject>> synchandlers,
+                IEnumerable<ICommandHandler<TCommandType, TSubject>> syncHandlers,
                 IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> asyncHandlers)
             {
-                _syncHandlers = synchandlers;
+                _syncHandlers = syncHandlers;
                 _asyncHandlers = asyncHandlers;
                 _syncCommandExecutionStack = new ExecutionStack<TCommandType, TSubject>(subjects);
                 _asyncCommandExecutionStack = new AsynchronousExecutionStack<TCommandType, TSubject>(subjects);
