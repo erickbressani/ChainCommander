@@ -37,9 +37,9 @@ namespace ChainCommander
         }
 
         internal static Task DoAsync<TCommandType, TSubject>(
-           this IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> handlers,
-           TSubject subject,
-           CancellationToken cancellationToken)
+            this IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> handlers,
+            TSubject subject,
+            CancellationToken cancellationToken)
            where TCommandType : Enum
         {
             var tasks = new List<Task>();
@@ -53,7 +53,7 @@ namespace ChainCommander
         internal static Task DoAsync<TCommandType, TSubject>(
             this IAsynchronousCommandHandler<TCommandType, TSubject> handler,
             IEnumerable<TSubject> subjects,
-           CancellationToken cancellationToken)
+            CancellationToken cancellationToken)
             where TCommandType : Enum
         {
             var tasks = new List<Task>();
