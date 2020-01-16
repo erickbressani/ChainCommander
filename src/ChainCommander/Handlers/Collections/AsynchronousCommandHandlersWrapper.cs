@@ -32,7 +32,7 @@ namespace ChainCommander
             foreach (var subject in subjects)
             {
                 foreach (var command in commands)
-                    tasks.Add(HandleAsync(command, subject, cancellationToken));
+                    tasks.AddRange(Handle(command, subject, cancellationToken));
             }
 
             return Task.WhenAll(tasks);
@@ -43,7 +43,7 @@ namespace ChainCommander
             var tasks = new List<Task>();
 
             foreach (var subject in subjects)
-                tasks.Add(HandleAsync(command, subject, cancellationToken));
+                tasks.AddRange(Handle(command, subject, cancellationToken));
 
             return Task.WhenAll(tasks);
         }
@@ -55,7 +55,7 @@ namespace ChainCommander
             foreach (var subject in subjects)
             {
                 foreach (var command in commands)
-                    tasks.Add(UndoAsync(command, subject, cancellationToken));
+                    tasks.AddRange(Undo(command, subject, cancellationToken));
             }
 
             return Task.WhenAll(tasks);
@@ -66,29 +66,21 @@ namespace ChainCommander
             var tasks = new List<Task>();
 
             foreach (var subject in subjects)
-                tasks.Add(UndoAsync(command, subject, cancellationToken));
+                tasks.AddRange(Undo(command, subject, cancellationToken));
 
             return Task.WhenAll(tasks);
         }
 
-        private Task HandleAsync(TCommandType command, TSubject subject, CancellationToken cancellationToken)
+        private IEnumerable<Task> Handle(TCommandType command, TSubject subject, CancellationToken cancellationToken)
         {
-            var tasks = new List<Task>();
-
             foreach (var handler in GetHandlersBy(command))
-                tasks.Add(handler.HandleAsync(subject, cancellationToken));
-
-            return Task.WhenAll(tasks);
+                yield return handler.HandleAsync(subject, cancellationToken);
         }
 
-        private Task UndoAsync(TCommandType command, TSubject subject, CancellationToken cancellationToken)
+        private IEnumerable<Task> Undo(TCommandType command, TSubject subject, CancellationToken cancellationToken)
         {
-            var tasks = new List<Task>();
-
             foreach (var handler in GetHandlersBy(command))
-                tasks.Add(handler.UndoAsync(subject, cancellationToken));
-
-            return Task.WhenAll(tasks);
+                yield return handler.UndoAsync(subject, cancellationToken);
         }
 
         private IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> GetHandlersBy(TCommandType command)
