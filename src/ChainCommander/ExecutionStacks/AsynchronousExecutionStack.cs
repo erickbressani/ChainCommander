@@ -25,7 +25,7 @@ namespace ChainCommander
             => _commands.Add(command);
 
         public Task ExecuteAsync(CancellationToken cancellationToken)
-             => _handlers.HandleAsync(_commands, _subjects, cancellationToken);
+            => _handlers.HandleAsync(_commands, _subjects, cancellationToken);
 
         public Task UndoAllAsync(CancellationToken cancellationToken = default)
             => _handlers.UndoAsync(_commands, _subjects, cancellationToken);
