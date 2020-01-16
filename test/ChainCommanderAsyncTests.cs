@@ -12,9 +12,13 @@ namespace ChainCommander.IntegrationTests
     public class ChainCommanderAsyncTests
     {
         private readonly ServiceProvider _serviceProvider;
+        private readonly IChainCommander chainCommander;
 
         public ChainCommanderAsyncTests()
-            => _serviceProvider = BuildServiceProvider();
+        {
+            _serviceProvider = BuildServiceProvider();
+            chainCommander = _serviceProvider.GetService<IChainCommander>();
+        }
 
         private static ServiceProvider BuildServiceProvider()
         {
@@ -32,8 +36,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task OneSubjectAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human = new Human();
 
             await chainCommander
@@ -55,8 +57,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task ThreeSubjectsAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
             var human3 = new Human();
@@ -87,8 +87,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task ListOfSubjectAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
             var human3 = new Human();
@@ -118,8 +116,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task MoreThanOneOfTheSameCommandAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human = new Human();
 
             await chainCommander
@@ -148,8 +144,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task UndoLastAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
 
@@ -183,8 +177,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task UndoLastTwoAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
 
@@ -214,8 +206,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task UndoLastMoreThanLenghtAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
 
@@ -245,8 +235,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task UndoAllAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
 
@@ -276,8 +264,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task UndoWithNoUndoImplementationAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
 
@@ -309,8 +295,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task UndoAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
 
@@ -340,8 +324,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task RedoLastAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
 
@@ -376,8 +358,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task RedoLastTwoAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
 
@@ -408,8 +388,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task RedoLastMoreThanLenghtAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
 
@@ -440,8 +418,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task RedoAllAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
 
@@ -472,8 +448,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task RedoWithNoUndoImplementationAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
 
@@ -506,8 +480,6 @@ namespace ChainCommander.IntegrationTests
         [Fact]
         public async Task RedoAsync()
         {
-            var chainCommander = _serviceProvider.GetService<IChainCommander>();
-
             var human1 = new Human();
             var human2 = new Human();
 
