@@ -11,67 +11,50 @@ namespace ChainCommander
             => _commands;
 
         private readonly IEnumerable<TSubject> _subjects;
-        private readonly List<IAsynchronousCommandHandler<TCommandType, TSubject>> _handlers;
+        private readonly AsynchronousCommandHandlersWrapper<TCommandType, TSubject> _handlers;
         private readonly List<TCommandType> _commands;
 
-        internal AsynchronousExecutionStack(IEnumerable<TSubject> subjects)
+        internal AsynchronousExecutionStack(IEnumerable<TSubject> subjects, AsynchronousCommandHandlersWrapper<TCommandType, TSubject> handlers)
         {
             _subjects = subjects;
-            _handlers = new List<IAsynchronousCommandHandler<TCommandType, TSubject>>();
+            _handlers = handlers;
             _commands = new List<TCommandType>();
         }
 
-        public void Add(IEnumerable<IAsynchronousCommandHandler<TCommandType, TSubject>> handlers, TCommandType command)
-        {
-            _handlers.AddRange(handlers);
-            _commands.Add(command);
-        }
+        internal void Add(TCommandType command)
+            => _commands.Add(command);
 
         public Task ExecuteAsync(CancellationToken cancellationToken)
-            => _handlers.DoAsync(_subjects, cancellationToken);
+             => _handlers.HandleAsync(_commands, _subjects, cancellationToken);
 
         public Task UndoAllAsync(CancellationToken cancellationToken = default)
-            => _handlers.UndoAsync(_subjects, cancellationToken);
+            => _handlers.UndoAsync(_commands, _subjects, cancellationToken);
 
         public Task UndoLastAsync(int howMany = 1, CancellationToken cancellationToken = default)
-            => OperateLastAsync(OperationType.Undo, howMany, cancellationToken);
+            => OperateLastAsync(howMany, OperationType.Undo, cancellationToken);
 
         public Task UndoAsync(TCommandType command, CancellationToken cancellationToken = default)
-        {
-            return _handlers
-                .GetBy(command)
-                .UndoAsync(_subjects, cancellationToken);
-        }
+            => _handlers.UndoAsync(command, _subjects, cancellationToken);
 
         public Task RedoAllAsync(CancellationToken cancellationToken = default)
-            => _handlers.DoAsync(_subjects, cancellationToken);
+            => ExecuteAsync(cancellationToken);
 
         public Task RedoLastAsync(int howMany = 1, CancellationToken cancellationToken = default)
-            => OperateLastAsync(OperationType.Redo, howMany, cancellationToken);
+            => OperateLastAsync(howMany, OperationType.Redo, cancellationToken);
 
         public Task RedoAsync(TCommandType command, CancellationToken cancellationToken = default)
-        {
-            return _handlers
-                .GetBy(command)
-                .DoAsync(_subjects, cancellationToken);
-        }
+            => _handlers.HandleAsync(command, _subjects, cancellationToken);
 
-        private Task OperateLastAsync(OperationType operationType, int howMany, CancellationToken cancellationToken)
+        private Task OperateLastAsync(int howMany, OperationType operationType, CancellationToken cancellationToken)
         {
             var tasks = new List<Task>();
-            int handlersCount = _handlers.Count;
 
-            if (howMany > handlersCount)
-                howMany = handlersCount;
-
-            for (int iteration = 0; iteration < howMany; iteration++)
+            foreach (var command in _commands.GetLast(howMany))
             {
-                var handler = _handlers[handlersCount - iteration - 1];
-
                 if (operationType == OperationType.Undo)
-                    tasks.Add(handler.UndoAsync(_subjects, cancellationToken));
+                    tasks.Add(_handlers.UndoAsync(command, _subjects, cancellationToken));
                 else
-                    tasks.Add(handler.DoAsync(_subjects, cancellationToken));
+                    tasks.Add(_handlers.HandleAsync(command, _subjects, cancellationToken));
             }
 
             return Task.WhenAll(tasks);

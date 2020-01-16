@@ -19,7 +19,7 @@ namespace ChainCommander
             _commands = new List<TCommandType>();
         }
 
-        public void Add(TCommandType command)
+        internal void Add(TCommandType command)
             => _commands.Add(command);
 
         public void Execute()
@@ -29,7 +29,7 @@ namespace ChainCommander
             => _handlers.Undo(_commands, _subjects);
 
         public void UndoLast(int howMany = 1)
-            => OperateLast(OperationType.Undo, howMany);
+            => OperateLast(howMany, OperationType.Undo);
 
         public void Undo(TCommandType command)
             => _handlers.Undo(command, _subjects);
@@ -38,22 +38,15 @@ namespace ChainCommander
             => Execute();
 
         public void RedoLast(int howMany = 1)
-            => OperateLast(OperationType.Redo, howMany);
+            => OperateLast(howMany, OperationType.Redo);
 
         public void Redo(TCommandType command)
             => _handlers.Handle(command, _subjects);
 
-        private void OperateLast(OperationType operationType, int howMany)
+        private void OperateLast(int howMany, OperationType operationType)
         {
-            int commandsCount = _commands.Count;
-
-            if (howMany > commandsCount)
-                howMany = commandsCount;
-
-            for (int iteration = 0; iteration < howMany; iteration++)
+            foreach (var command in _commands.GetLast(howMany))
             {
-                var command = _commands[commandsCount - iteration - 1];
-
                 if (operationType == OperationType.Undo)
                     _handlers.Undo(command, _subjects);
                 else

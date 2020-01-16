@@ -8,14 +8,10 @@ namespace ChainCommander
     {
         private readonly Dictionary<string, List<ICommandHandler<TCommandType, TSubject>>> _handlersDictionary;
 
-        internal CommandHandlersWrapper()
-            => _handlersDictionary = new Dictionary<string, List<ICommandHandler<TCommandType, TSubject>>>();
-
-        internal CommandHandlersWrapper(IEnumerable<ICommandHandler<TCommandType, TSubject>> handlers): this()
-            => Add(handlers);
-
-        internal void Add(IEnumerable<ICommandHandler<TCommandType, TSubject>> handlers)
+        internal CommandHandlersWrapper(IEnumerable<ICommandHandler<TCommandType, TSubject>> handlers)
         {
+            _handlersDictionary = new Dictionary<string, List<ICommandHandler<TCommandType, TSubject>>>();
+
             foreach (var handler in handlers)
             {
                 string name = GetCommandName(handler);
@@ -57,7 +53,19 @@ namespace ChainCommander
                 Undo(command, subject);
         }
 
-        private IEnumerable<ICommandHandler<TCommandType, TSubject>> GetBy(TCommandType command)
+        private void Handle(TCommandType command, TSubject subject)
+        {
+            foreach (var handler in GetHandlersBy(command))
+                handler.Handle(subject);
+        }
+
+        private void Undo(TCommandType command, TSubject subject)
+        {
+            foreach (var handler in GetHandlersBy(command))
+                handler.Undo(subject);
+        }
+
+        private IEnumerable<ICommandHandler<TCommandType, TSubject>> GetHandlersBy(TCommandType command)
            => _handlersDictionary.GetValueOrDefault(command.ToString());
 
         private string GetCommandName(ICommandHandler<TCommandType, TSubject> handler)
@@ -68,22 +76,6 @@ namespace ChainCommander
                 .FirstOrDefault() as HandlesAttribute;
 
             return handles?.CommandName ?? string.Empty;
-        }
-
-        private void Handle(TCommandType command, TSubject subject)
-        {
-            var handlers = GetBy(command);
-
-            foreach (var handler in handlers)
-                handler.Handle(subject);
-        }
-
-        private void Undo(TCommandType command, TSubject subject)
-        {
-            var handlers = GetBy(command);
-
-            foreach (var handler in handlers)
-                handler.Undo(subject);
         }
     }
 }
