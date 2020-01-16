@@ -27,6 +27,7 @@ namespace ChainCommander.IntegrationTests
                 .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, SleepHandler>()
                 .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, WalkHandler>()
                 .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, RunHandler>()
+                .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, SecondRunHandler>()
                 .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, WorkHandler>()
                 .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, InvalidHandler>()
                 .AddChainCommander()

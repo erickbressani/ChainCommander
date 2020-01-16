@@ -26,6 +26,7 @@ namespace ChainCommander.IntegrationTests
                 .AddTransient<ICommandHandler<HumanCommand, Human>, SleepHandler>()
                 .AddTransient<ICommandHandler<HumanCommand, Human>, WalkHandler>()
                 .AddTransient<ICommandHandler<HumanCommand, Human>, RunHandler>()
+                .AddTransient<ICommandHandler<HumanCommand, Human>, SecondRunHandler>()
                 .AddTransient<ICommandHandler<HumanCommand, Human>, WorkHandler>()
                 .AddTransient<ICommandHandler<HumanCommand, Human>, InvalidHandler>()
                 .AddChainCommander()
