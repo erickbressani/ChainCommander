@@ -49,7 +49,7 @@ namespace ChainCommander
         {
             var tasks = new List<Task>();
 
-            foreach (var command in _commands.GetLast(howMany))
+            foreach (var command in _commands.TakeLast(howMany))
             {
                 if (operationType == OperationType.Undo)
                     tasks.Add(_handlers.UndoAsync(command, _subjects, cancellationToken));

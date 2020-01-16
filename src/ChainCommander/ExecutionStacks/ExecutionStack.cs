@@ -45,7 +45,7 @@ namespace ChainCommander
 
         private void OperateLast(int howMany, OperationType operationType)
         {
-            foreach (var command in _commands.GetLast(howMany))
+            foreach (var command in _commands.TakeLast(howMany))
             {
                 if (operationType == OperationType.Undo)
                     _handlers.Undo(command, _subjects);
