@@ -9,8 +9,6 @@ namespace ChainCommander
         Task HandleAsync(TSubject subject, CancellationToken cancellationToken);
 
         Task UndoAsync(TSubject subject, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
+            => Task.CompletedTask;
     }
 }
