@@ -12,8 +12,9 @@ namespace ChainCommander.Sample.ConsoleApp
     {
         public async static Task Main()
         {
-            var serviceProvider = BuildServiceProvider();
-            var chainCommander = serviceProvider.GetService<IChainCommander>();
+            var chainCommander = SetupDependency()
+                .BuildServiceProvider()
+                .GetService<IChainCommander>();
 
             var human1 = new Human() { Name = "John" };
             var human2 = new Human() { Name = "Logan" };
@@ -28,7 +29,7 @@ namespace ChainCommander.Sample.ConsoleApp
                 .ConfigureAwait(false);
         }
 
-        private static ServiceProvider BuildServiceProvider()
+        private static IServiceCollection SetupDependency()
         {
             return new ServiceCollection()
                 .AddTransient<ICommandHandler<HumanCommand, Human>, Sync.EatHandler>()
@@ -41,8 +42,7 @@ namespace ChainCommander.Sample.ConsoleApp
                 .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, Async.WalkHandler>()
                 .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, Async.RunHandler>()
                 .AddTransient<IAsynchronousCommandHandler<HumanCommand, Human>, Async.WorkHandler>()
-                .AddChainCommander()
-                .BuildServiceProvider();
+                .AddChainCommander();
         }
     }
 }
