@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using ChainCommander.Sample.Implementation;
 using Microsoft.Extensions.DependencyInjection;
